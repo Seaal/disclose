@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 
-namespace Disclose.NET
+namespace Disclose
 {
     public class HelpCommandHandler : ICommandHandler
     {
