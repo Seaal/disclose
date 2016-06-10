@@ -10,13 +10,13 @@ namespace Disclose.NET
     {
         private readonly ICommandHandler _commandHandler;
 
-        public NewCommandNameDecorator(ICommandHandler commandHandler, string newCommandName)
+        public NewCommandNameDecorator(ICommandHandler commandHandler, string newCommandNameName)
         {
             _commandHandler = commandHandler;
-            Command = newCommandName;
+            CommandName = newCommandNameName;
         }
 
-        public string Command { get; }
+        public string CommandName { get; }
 
         public string Description => _commandHandler.Description;
         public Task Handle(DiscloseClient client, MessageEventArgs e, string arguments)

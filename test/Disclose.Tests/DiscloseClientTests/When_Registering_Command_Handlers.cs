@@ -27,8 +27,8 @@ namespace Disclose.Tests.DiscloseClientTests
             ICommandHandler handler1 = Substitute.For<ICommandHandler>();
             ICommandHandler handler2 = Substitute.For<ICommandHandler>();
 
-            handler1.Command.Returns("test");
-            handler2.Command.Returns("test");
+            handler1.CommandName.Returns("test");
+            handler2.CommandName.Returns("test");
 
             _client.RegisterCommandHandler(handler1);
 

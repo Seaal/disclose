@@ -24,11 +24,11 @@ namespace Disclose.Tests.ICommandHandlerExtensionTests
         [TestCase("test", "test2")]
         public void CommandName_Should_Be_New_CommandName(string originalCommandName, string newCommandName)
         {
-            commandHandler.Command.Returns(originalCommandName);
+            commandHandler.CommandName.Returns(originalCommandName);
 
             commandHandler = commandHandler.WithCommandName(newCommandName);
 
-            commandHandler.Command.Should().Be(newCommandName);
+            commandHandler.CommandName.Should().Be(newCommandName);
         }
 
         [Test]

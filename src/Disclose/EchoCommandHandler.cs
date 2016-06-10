@@ -5,7 +5,7 @@ namespace Disclose
 {
     public class EchoCommandHandler : ICommandHandler
     {
-        public string Command => "echo";
+        public string CommandName => "echo";
 
         public string Description => "Repeats whatever you say back to it";
 

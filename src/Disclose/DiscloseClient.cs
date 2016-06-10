@@ -45,12 +45,12 @@ namespace Disclose
 
         public void RegisterCommandHandler(ICommandHandler commandHandler)
         {
-            if (_commandHandlers.ContainsKey(commandHandler.Command))
+            if (_commandHandlers.ContainsKey(commandHandler.CommandName))
             {
-                throw new ArgumentException("A command handler with the commmand " + commandHandler.Command + " already exists!");
+                throw new ArgumentException("A command handler with the commmand " + commandHandler.CommandName + " already exists!");
             }
 
-            _commandHandlers.Add(commandHandler.Command.ToLowerInvariant(), commandHandler);
+            _commandHandlers.Add(commandHandler.CommandName.ToLowerInvariant(), commandHandler);
         }
 
         public void Connect(string token)

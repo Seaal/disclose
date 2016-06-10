@@ -6,7 +6,7 @@ namespace Disclose
 {
     public class HelpCommandHandler : ICommandHandler
     {
-        public string Command => "help";
+        public string CommandName => "help";
 
         public string Description => "Understand how to use commands. Use '!eh help <command name>' to find help for that specific command.";
 
@@ -32,7 +32,7 @@ namespace Disclose
 
             foreach (ICommandHandler commandHandler in client.CommandHandlers)
             {
-                response += $"!eh {commandHandler.Command} - {commandHandler.Description}";
+                response += $"!eh {commandHandler.CommandName} - {commandHandler.Description}";
 
                 if (commandHandler != client.CommandHandlers.Last())
                 {
@@ -45,11 +45,11 @@ namespace Disclose
 
         private string HandleHelpCommand(DiscloseClient client, string command)
         {
-            ICommandHandler commandHandler = client.CommandHandlers.FirstOrDefault(ch => ch.Command.ToLowerInvariant() == command.ToLowerInvariant());
+            ICommandHandler commandHandler = client.CommandHandlers.FirstOrDefault(ch => ch.CommandName.ToLowerInvariant() == command.ToLowerInvariant());
 
             if (commandHandler != null)
             {
-                return $"!eh {commandHandler.Command} - {commandHandler.Description}";
+                return $"!eh {commandHandler.CommandName} - {commandHandler.Description}";
             }
 
             return "Command not found.";

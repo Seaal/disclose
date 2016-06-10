@@ -5,7 +5,7 @@ namespace Disclose
 {
     public interface ICommandHandler
     {
-        string Command { get; }
+        string CommandName { get; }
 
         string Description { get; }
 
