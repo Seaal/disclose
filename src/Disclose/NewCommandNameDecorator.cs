@@ -6,7 +6,7 @@ using Discord;
 
 namespace Disclose.NET
 {
-    public class NewCommandNameDecorator : ICommandHandler
+    internal class NewCommandNameDecorator : ICommandHandler
     {
         private readonly ICommandHandler _commandHandler;
 
