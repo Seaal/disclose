@@ -47,14 +47,16 @@ namespace Disclose.Tests.ICommandHandlerExtensionTests
             ICommandHandler decoaratedCommandHandler = commandHandler.WithCommandName(Arg.Any<string>());
 
             IMessage message = Substitute.For<IMessage>();
+            IDiscloseSettings disclose = Substitute.For<IDiscloseSettings>();
+            IDiscordCommands discordCommands = Substitute.For<IDiscordCommands>();
             string arguments = "test";
 
-            commandHandler.Handle(null, message, arguments)
+            commandHandler.Handle(disclose, discordCommands, message, arguments)
                 .Returns(Task.FromResult(0));
 
-            await decoaratedCommandHandler.Handle(null, message, arguments);
+            await decoaratedCommandHandler.Handle(disclose, discordCommands, message, arguments);
 
-            commandHandler.Received().Handle(null, message, arguments);
+            commandHandler.Received().Handle(disclose, discordCommands, message, arguments);
         }
     }
 }

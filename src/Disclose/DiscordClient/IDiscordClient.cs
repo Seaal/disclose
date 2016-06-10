@@ -4,10 +4,8 @@ using Discord;
 
 namespace Disclose.DiscordClient
 {
-    public interface IDiscordClient
+    public interface IDiscordClient : IDiscordCommands
     {
-        ulong ClientId { get; }
-
         void ExecuteAndWait(Func<Task> action);
 
         Task Connect(string token);

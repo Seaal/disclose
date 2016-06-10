@@ -52,7 +52,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             _discordClient.OnMessageReceived += Raise.EventWith(new object(), new MessageEventArgs(message));
 
-            commandHandler.Received(0).Handle(_discloseClient, message, Arg.Any<string>());
+            commandHandler.Received(0).Handle(_discloseClient, _discordClient, message, Arg.Any<string>());
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             _discordClient.OnMessageReceived += Raise.EventWith(new object(), new MessageEventArgs(message));
 
-            commandHandler.Received(0).Handle(_discloseClient, message, Arg.Any<string>());
+            commandHandler.Received(0).Handle(_discloseClient, _discordClient, message, Arg.Any<string>());
         }
 
         [Test]
@@ -100,7 +100,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             _discordClient.OnMessageReceived += Raise.EventWith(new object(), new MessageEventArgs(message));
 
-            commandHandler.Received(1).Handle(_discloseClient, message, Arg.Any<string>());
+            commandHandler.Received(1).Handle(_discloseClient, _discordClient, message, Arg.Any<string>());
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             _discordClient.OnMessageReceived += Raise.EventWith(new object(), new MessageEventArgs(message));
 
-            commandHandler.Received(1).Handle(_discloseClient, message, "hello world");
+            commandHandler.Received(1).Handle(_discloseClient, _discordClient, message, "hello world");
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Disclose.DiscordClient;
-using MessageEventArgs = Discord.MessageEventArgs;
 
 namespace Disclose
 {
@@ -10,36 +9,31 @@ namespace Disclose
         public string CommandName => "help";
 
         public string Description => "Understand how to use commands. Use '!eh help <command name>' to find help for that specific command.";
-        public Task Handle(DiscloseClient client, IMessage message, string arguments)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task Handle(DiscloseClient client, MessageEventArgs e, string arguments)
+        public Task Handle(IDiscloseSettings disclose, IDiscordCommands discord, IMessage message, string arguments)
         {
             string response;
 
             if (arguments == null)
             {
-                response = HandleHelpAll(client);   
+                response = HandleHelpAll(disclose);
             }
             else
             {
-                response = HandleHelpCommand(client, arguments);
+                response = HandleHelpCommand(disclose, arguments);
             }
 
-            return e.User.SendMessage(response);
+            return discord.SendMessageToUser(message.User, response);
         }
 
-        private string HandleHelpAll(DiscloseClient client)
+        private string HandleHelpAll(IDiscloseSettings disclose)
         {
             string response = "Currently available commands: \n\n";
 
-            foreach (ICommandHandler commandHandler in client.CommandHandlers)
+            foreach (ICommandHandler commandHandler in disclose.CommandHandlers)
             {
                 response += $"!eh {commandHandler.CommandName} - {commandHandler.Description}";
 
-                if (commandHandler != client.CommandHandlers.Last())
+                if (commandHandler != disclose.CommandHandlers.Last())
                 {
                     response += "\n";
                 }
@@ -48,9 +42,9 @@ namespace Disclose
             return response;
         }
 
-        private string HandleHelpCommand(DiscloseClient client, string command)
+        private string HandleHelpCommand(IDiscloseSettings disclose, string command)
         {
-            ICommandHandler commandHandler = client.CommandHandlers.FirstOrDefault(ch => ch.CommandName.ToLowerInvariant() == command.ToLowerInvariant());
+            ICommandHandler commandHandler = disclose.CommandHandlers.FirstOrDefault(ch => ch.CommandName.ToLowerInvariant() == command.ToLowerInvariant());
 
             if (commandHandler != null)
             {

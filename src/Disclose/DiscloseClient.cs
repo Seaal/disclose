@@ -6,14 +6,14 @@ using Disclose.DiscordClient.DiscordNetAdapters;
 
 namespace Disclose
 {
-    public class DiscloseClient
+    public class DiscloseClient : IDiscloseSettings
     {
         private readonly IDiscordClient _discordClient;
         private readonly IDictionary<string, ICommandHandler> _commandHandlers;
         private DiscloseOptions _options;
         private readonly ICommandParser _parser;
 
-        public IReadOnlyCollection<ICommandHandler> CommandHandlers => _commandHandlers.Values.ToList();
+        IReadOnlyCollection<ICommandHandler> IDiscloseSettings.CommandHandlers => _commandHandlers.Values.ToList();
 
         public static DiscloseClient Bootstrap(Action<DiscloseOptions> setOptions)
         {
@@ -87,7 +87,7 @@ namespace Disclose
                 return;
             }
 
-            await commandHandler.Handle(this, e.Message, parsedCommand.Argument);
+            await commandHandler.Handle(this, _discordClient, e.Message, parsedCommand.Argument);
         }
     }
 }

@@ -8,14 +8,14 @@ namespace Disclose
         public string CommandName => "echo";
 
         public string Description => "Repeats whatever you say back to it";
-        public Task Handle(DiscloseClient client, IMessage message, string arguments)
+        public Task Handle(IDiscloseSettings disclose, IDiscordCommands discord, IMessage message, string arguments)
         {
             if (arguments == null)
             {
                 return Task.FromResult(0);
             }
 
-            return Task.FromResult(0);  //e.Channel.SendMessage(arguments);
+            return discord.SendMessageToChannel(message.Channel, arguments);
         }
     }
 }

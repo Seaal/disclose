@@ -9,6 +9,6 @@ namespace Disclose
 
         string Description { get; }
 
-        Task Handle(DiscloseClient client, IMessage message, string arguments);
+        Task Handle(IDiscloseSettings disclose, IDiscordCommands discord, IMessage message, string arguments);
     }
 }
