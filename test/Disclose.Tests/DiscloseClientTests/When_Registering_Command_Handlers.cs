@@ -36,5 +36,41 @@ namespace Disclose.Tests.DiscloseClientTests
 
             action.ShouldThrow<ArgumentException>();
         }
+
+        [Test]
+        public void Should_Throw_When_A_Handler_Has_A_Null_CommandName()
+        {
+            ICommandHandler handler = Substitute.For<ICommandHandler>();
+
+            handler.CommandName.Returns((string) null);
+
+            Action action = () => _client.RegisterCommandHandler(handler);
+
+            action.ShouldThrow<ArgumentException>();
+        }
+
+        [Test]
+        public void Should_Throw_When_A_Handler_Has_An_Empty_CommandName()
+        {
+            ICommandHandler handler = Substitute.For<ICommandHandler>();
+
+            handler.CommandName.Returns("");
+
+            Action action = () => _client.RegisterCommandHandler(handler);
+
+            action.ShouldThrow<ArgumentException>();
+        }
+
+        [Test]
+        public void Should_Throw_When_A_Handler_Has_A_Whitespace_CommandName()
+        {
+            ICommandHandler handler = Substitute.For<ICommandHandler>();
+
+            handler.CommandName.Returns("   \t");
+
+            Action action = () => _client.RegisterCommandHandler(handler);
+
+            action.ShouldThrow<ArgumentException>();
+        }
     }
 }

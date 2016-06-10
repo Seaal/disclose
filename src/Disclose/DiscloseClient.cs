@@ -45,6 +45,11 @@ namespace Disclose
 
         public void RegisterCommandHandler(ICommandHandler commandHandler)
         {
+            if (String.IsNullOrWhiteSpace(commandHandler.CommandName))
+            {
+                throw new ArgumentException("CommandName must contain a non whitespace character");
+            }
+
             if (_commandHandlers.ContainsKey(commandHandler.CommandName))
             {
                 throw new ArgumentException("A command handler with the commmand " + commandHandler.CommandName + " already exists!");
