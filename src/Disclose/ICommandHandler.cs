@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Discord;
+using Disclose.DiscordClient;
 
 namespace Disclose
 {
@@ -9,6 +9,6 @@ namespace Disclose
 
         string Description { get; }
 
-        Task Handle(DiscloseClient client, MessageEventArgs e, string arguments);
+        Task Handle(DiscloseClient client, IMessage message, string arguments);
     }
 }

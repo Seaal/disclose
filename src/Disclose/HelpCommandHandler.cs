@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Discord;
+using Disclose.DiscordClient;
+using MessageEventArgs = Discord.MessageEventArgs;
 
 namespace Disclose
 {
@@ -9,6 +10,10 @@ namespace Disclose
         public string CommandName => "help";
 
         public string Description => "Understand how to use commands. Use '!eh help <command name>' to find help for that specific command.";
+        public Task Handle(DiscloseClient client, IMessage message, string arguments)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public Task Handle(DiscloseClient client, MessageEventArgs e, string arguments)
         {

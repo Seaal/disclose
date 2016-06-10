@@ -1,4 +1,5 @@
 ﻿using System;
+using Disclose.DiscordClient;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;

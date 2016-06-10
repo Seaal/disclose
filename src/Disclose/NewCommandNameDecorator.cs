@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
+using Disclose.DiscordClient;
 
-namespace Disclose.NET
+namespace Disclose
 {
     internal class NewCommandNameDecorator : ICommandHandler
     {
@@ -19,9 +19,9 @@ namespace Disclose.NET
         public string CommandName { get; }
 
         public string Description => _commandHandler.Description;
-        public Task Handle(DiscloseClient client, MessageEventArgs e, string arguments)
+        public Task Handle(DiscloseClient client, IMessage message, string arguments)
         {
-            return _commandHandler.Handle(client, e, arguments);
+            return _commandHandler.Handle(client, message, arguments);
         }
     }
 }

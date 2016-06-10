@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Discord;
+using Disclose.DiscordClient;
+using Disclose.DiscordClient.DiscordNetAdapters;
 
 namespace Disclose
 {
@@ -65,7 +66,7 @@ namespace Disclose
 
         private async void OnMessageReceived(object sender, MessageEventArgs e)
         {
-            if (e.Message.IsAuthor)
+            if (e.Message.User.Id == _discordClient.ClientId)
             {
                 return;
             }
@@ -86,7 +87,7 @@ namespace Disclose
                 return;
             }
 
-            await commandHandler.Handle(this, e, parsedCommand.Argument);
+            await commandHandler.Handle(this, e.Message, parsedCommand.Argument);
         }
     }
 }
