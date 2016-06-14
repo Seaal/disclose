@@ -56,6 +56,8 @@ namespace Disclose
                 throw new ArgumentException("A command handler with the commmand " + commandHandler.CommandName + " already exists!");
             }
 
+            commandHandler.Init(this, _discordClient);
+
             _commandHandlers.Add(commandHandler.CommandName.ToLowerInvariant(), commandHandler);
         }
 
@@ -87,7 +89,7 @@ namespace Disclose
                 return;
             }
 
-            await commandHandler.Handle(this, _discordClient, e.Message, parsedCommand.Argument);
+            await commandHandler.Handle(e.Message, parsedCommand.Argument);
         }
     }
 }

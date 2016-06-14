@@ -9,7 +9,7 @@ namespace Disclose.Tests.DiscloseClientTests
     [TestFixture]
     public class When_Registering_Command_Handlers
     {
-        private Disclose.DiscloseClient _client;
+        private DiscloseClient _client;
         private ICommandParser _parser;
         private IDiscordClient _discordClient;
 
@@ -72,6 +72,18 @@ namespace Disclose.Tests.DiscloseClientTests
             Action action = () => _client.RegisterCommandHandler(handler);
 
             action.ShouldThrow<ArgumentException>();
+        }
+
+        [Test]
+        public void Should_Init_Handler()
+        {
+            ICommandHandler handler = Substitute.For<ICommandHandler>();
+
+            handler.CommandName.Returns("test");
+
+            _client.RegisterCommandHandler(handler);
+
+            handler.Received(1).Init(_client, _discordClient);
         }
     }
 }

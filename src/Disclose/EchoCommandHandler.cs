@@ -3,19 +3,20 @@ using Disclose.DiscordClient;
 
 namespace Disclose
 {
-    public class EchoCommandHandler : ICommandHandler
+    public class EchoCommandHandler : CommandHandler
     {
-        public string CommandName => "echo";
+        public override string CommandName => "echo";
 
-        public string Description => "Repeats whatever you say back to it";
-        public Task Handle(IDiscloseSettings disclose, IDiscordCommands discord, IMessage message, string arguments)
+        public override string Description => "Repeats whatever you say back to it";
+
+        public override Task Handle(IMessage message, string arguments)
         {
             if (arguments == null)
             {
                 return Task.FromResult(0);
             }
 
-            return discord.SendMessageToChannel(message.Channel, arguments);
+            return Discord.SendMessageToChannel(message.Channel, arguments);
         }
     }
 }

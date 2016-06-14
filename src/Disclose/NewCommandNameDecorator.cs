@@ -19,9 +19,14 @@ namespace Disclose
         public string CommandName { get; }
 
         public string Description => _commandHandler.Description;
-        public Task Handle(IDiscloseSettings disclose, IDiscordCommands discord, IMessage message, string arguments)
+        public void Init(IDiscloseSettings disclose, IDiscordCommands discord)
         {
-            return _commandHandler.Handle(disclose, discord, message, arguments);
+            _commandHandler.Init(disclose, discord);
+        }
+
+        public Task Handle(IMessage message, string arguments)
+        {
+            return _commandHandler.Handle(message, arguments);
         }
     }
 }

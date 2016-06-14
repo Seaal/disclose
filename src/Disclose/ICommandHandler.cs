@@ -9,6 +9,8 @@ namespace Disclose
 
         string Description { get; }
 
-        Task Handle(IDiscloseSettings disclose, IDiscordCommands discord, IMessage message, string arguments);
+        void Init(IDiscloseSettings disclose, IDiscordCommands discord);
+
+        Task Handle(IMessage message, string arguments);
     }
 }
