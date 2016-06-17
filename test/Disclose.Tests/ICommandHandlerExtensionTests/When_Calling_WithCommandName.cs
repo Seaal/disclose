@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Disclose.DiscordClient;
 using FluentAssertions;
@@ -64,6 +65,8 @@ namespace Disclose.Tests.ICommandHandlerExtensionTests
 
             IDiscloseSettings disclose = Substitute.For<IDiscloseSettings>();
             IDiscordCommands discordCommands = Substitute.For<IDiscordCommands>();
+
+            commandHandler.When(ch => ch.Init(disclose, discordCommands)).Do(ci => { });
 
             decoaratedCommandHandler.Init(disclose, discordCommands);
 
