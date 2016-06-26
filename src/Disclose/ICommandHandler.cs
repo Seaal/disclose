@@ -6,7 +6,7 @@ namespace Disclose
     /// <summary>
     /// Handles commands sent from a user. Must be registered with the Disclose Client.
     /// </summary>
-    public interface ICommandHandler
+    public interface ICommandHandler : IHandler
     {
         /// <summary>
         /// The alias for the command. The user has to type this to activate the command.
@@ -17,13 +17,6 @@ namespace Disclose
         /// A description of what the command does. May be used by other commands.
         /// </summary>
         string Description { get; }
-
-        /// <summary>
-        /// Called when the command handler is registered, so you have access to disclose/discord.
-        /// </summary>
-        /// <param name="disclose"></param>
-        /// <param name="discord"></param>
-        void Init(IDiscloseSettings disclose, IDiscordCommands discord);
 
         /// <summary>
         /// This is called by the discord client when a message is sent that matches the command.

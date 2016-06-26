@@ -31,9 +31,9 @@ namespace Disclose.Tests.DiscloseClientTests
             handler1.CommandName.Returns("test");
             handler2.CommandName.Returns("test");
 
-            _client.RegisterCommandHandler(handler1);
+            _client.Register(handler1);
 
-            Action action = () => _client.RegisterCommandHandler(handler2);
+            Action action = () => _client.Register(handler2);
 
             action.ShouldThrow<ArgumentException>();
         }
@@ -45,7 +45,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             handler.CommandName.Returns((string) null);
 
-            Action action = () => _client.RegisterCommandHandler(handler);
+            Action action = () => _client.Register(handler);
 
             action.ShouldThrow<ArgumentException>();
         }
@@ -57,7 +57,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             handler.CommandName.Returns("");
 
-            Action action = () => _client.RegisterCommandHandler(handler);
+            Action action = () => _client.Register(handler);
 
             action.ShouldThrow<ArgumentException>();
         }
@@ -69,7 +69,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             handler.CommandName.Returns("   \t");
 
-            Action action = () => _client.RegisterCommandHandler(handler);
+            Action action = () => _client.Register(handler);
 
             action.ShouldThrow<ArgumentException>();
         }
@@ -81,7 +81,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             handler.CommandName.Returns("test");
 
-            _client.RegisterCommandHandler(handler);
+            _client.Register(handler);
 
             handler.Received(1).Init(_client, _discordClient);
         }

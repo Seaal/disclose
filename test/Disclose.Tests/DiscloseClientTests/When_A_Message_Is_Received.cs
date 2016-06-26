@@ -48,7 +48,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             commandHandler.CommandName.Returns("test");
 
-            _discloseClient.RegisterCommandHandler(commandHandler);
+            _discloseClient.Register(commandHandler);
 
             _discordClient.OnMessageReceived += Raise.EventWith(new object(), new MessageEventArgs(message));
 
@@ -72,7 +72,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             commandHandler.CommandName.Returns("test2");
 
-            _discloseClient.RegisterCommandHandler(commandHandler);
+            _discloseClient.Register(commandHandler);
 
             _discordClient.OnMessageReceived += Raise.EventWith(new object(), new MessageEventArgs(message));
 
@@ -96,7 +96,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             commandHandler.CommandName.Returns("test");
 
-            _discloseClient.RegisterCommandHandler(commandHandler);
+            _discloseClient.Register(commandHandler);
 
             _discordClient.OnMessageReceived += Raise.EventWith(new object(), new MessageEventArgs(message));
 
@@ -121,7 +121,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             commandHandler.CommandName.Returns("test");
 
-            _discloseClient.RegisterCommandHandler(commandHandler);
+            _discloseClient.Register(commandHandler);
 
             _discordClient.OnMessageReceived += Raise.EventWith(new object(), new MessageEventArgs(message));
 

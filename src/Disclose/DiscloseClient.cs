@@ -10,6 +10,7 @@ namespace Disclose
     {
         private readonly IDiscordClient _discordClient;
         private readonly IDictionary<string, ICommandHandler> _commandHandlers;
+        private readonly ICollection<IUserJoinsServerHandler> _userJoinsServerHandlers;
         private DiscloseOptions _options;
         private readonly ICommandParser _parser;
 
@@ -39,6 +40,7 @@ namespace Disclose
             _parser = parser;
 
             _commandHandlers = new Dictionary<string, ICommandHandler>();
+            _userJoinsServerHandlers = new List<IUserJoinsServerHandler>();
         }
 
         /// <summary>
@@ -51,13 +53,14 @@ namespace Disclose
             _parser.Init(_options);
 
             _discordClient.OnMessageReceived += OnMessageReceived;
+            _discordClient.OnUserJoinedServer += OnUserJoinedServer;
         }
 
         /// <summary>
         /// Registers a command handler to handle commands sent to the bot.
         /// </summary>
         /// <param name="commandHandler"></param>
-        public void RegisterCommandHandler(ICommandHandler commandHandler)
+        public void Register(ICommandHandler commandHandler)
         {
             if (String.IsNullOrWhiteSpace(commandHandler.CommandName))
             {
@@ -72,6 +75,22 @@ namespace Disclose
             commandHandler.Init(this, _discordClient);
 
             _commandHandlers.Add(commandHandler.CommandName.ToLowerInvariant(), commandHandler);
+        }
+
+        /// <summary>
+        /// Registers a handler to handle when a new user joins the server for the first time.
+        /// </summary>
+        /// <param name="userJoinsServerHandler"></param>
+        public void Register(IUserJoinsServerHandler userJoinsServerHandler)
+        {
+            if (userJoinsServerHandler == null)
+            {
+                throw new ArgumentNullException(nameof(userJoinsServerHandler));
+            }
+
+            userJoinsServerHandler.Init(this, _discordClient);
+
+            _userJoinsServerHandlers.Add(userJoinsServerHandler);
         }
 
         /// <summary>
@@ -107,6 +126,21 @@ namespace Disclose
             }
 
             await commandHandler.Handle(e.Message, parsedCommand.Argument);
+        }
+
+        private async void OnUserJoinedServer(object sender, UserEventArgs e)
+        {
+            foreach (IUserJoinsServerHandler handler in _userJoinsServerHandlers)
+            {
+                try
+                {
+                    await handler.Handle(e.User, e.Server);
+                }
+                catch (Exception)
+                {
+                    //Suppress errors here, if one handler fails, we still want the others to run
+                }
+            }
         }
     }
 }

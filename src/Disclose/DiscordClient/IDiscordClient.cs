@@ -11,5 +11,7 @@ namespace Disclose.DiscordClient
         Task Connect(string token);
 
         event EventHandler<MessageEventArgs> OnMessageReceived;
+        event EventHandler<UserEventArgs> OnUserJoinedServer;
+
     }
 }
