@@ -15,6 +15,11 @@ namespace Disclose
 
         IReadOnlyCollection<ICommandHandler> IDiscloseSettings.CommandHandlers => _commandHandlers.Values.ToList();
 
+        /// <summary>
+        /// Creates an instance of the DiscloseClient with default implementations and calls Init to set the disclose options.
+        /// </summary>
+        /// <param name="setOptions">Set your Disclose options here.</param>
+        /// <returns></returns>
         public static DiscloseClient Bootstrap(Action<DiscloseOptions> setOptions)
         {
             DiscloseOptions options = new DiscloseOptions();
@@ -36,6 +41,10 @@ namespace Disclose
             _commandHandlers = new Dictionary<string, ICommandHandler>();
         }
 
+        /// <summary>
+        /// Sets the Disclose options. Must be called before Connect is called.
+        /// </summary>
+        /// <param name="options"></param>
         public void Init(DiscloseOptions options)
         {
             _options = options;
@@ -44,6 +53,10 @@ namespace Disclose
             _discordClient.OnMessageReceived += OnMessageReceived;
         }
 
+        /// <summary>
+        /// Registers a command handler to handle commands sent to the bot.
+        /// </summary>
+        /// <param name="commandHandler"></param>
         public void RegisterCommandHandler(ICommandHandler commandHandler)
         {
             if (String.IsNullOrWhiteSpace(commandHandler.CommandName))
@@ -61,6 +74,10 @@ namespace Disclose
             _commandHandlers.Add(commandHandler.CommandName.ToLowerInvariant(), commandHandler);
         }
 
+        /// <summary>
+        /// Connect to Discord and wait for requests. This will suspend console applications.
+        /// </summary>
+        /// <param name="token"></param>
         public void Connect(string token)
         {
             _discordClient.ExecuteAndWait(async () => await _discordClient.Connect(token));

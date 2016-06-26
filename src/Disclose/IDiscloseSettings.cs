@@ -7,6 +7,9 @@ namespace Disclose
 {
     public interface IDiscloseSettings
     {
+        /// <summary>
+        /// Every Command Handler registered with the disclose client.
+        /// </summary>
         IReadOnlyCollection<ICommandHandler> CommandHandlers { get; }
     }
 }

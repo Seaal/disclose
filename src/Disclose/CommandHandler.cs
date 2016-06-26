@@ -6,6 +6,9 @@ using Disclose.DiscordClient;
 
 namespace Disclose
 {
+    /// <summary>
+    /// A base class for Command Handlers. Extend this to create your own Command Handlers.
+    /// </summary>
     public abstract class CommandHandler : ICommandHandler
     {
         protected IDiscloseSettings Disclose { get; private set; }
