@@ -62,6 +62,11 @@ namespace Disclose
         /// <param name="commandHandler"></param>
         public void Register(ICommandHandler commandHandler)
         {
+            if (commandHandler == null)
+            {
+                throw new ArgumentNullException(nameof(commandHandler));
+            }
+
             if (String.IsNullOrWhiteSpace(commandHandler.CommandName))
             {
                 throw new ArgumentException("CommandName must contain a non whitespace character");

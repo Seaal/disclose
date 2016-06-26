@@ -85,5 +85,13 @@ namespace Disclose.Tests.DiscloseClientTests
 
             handler.Received(1).Init(_client, _discordClient);
         }
+
+        [Test]
+        public void Should_Throw_If_Handler_Is_Null()
+        {
+            Action act = () => _client.Register((ICommandHandler)null);
+
+            act.ShouldThrow<ArgumentNullException>();
+        }
     }
 }
