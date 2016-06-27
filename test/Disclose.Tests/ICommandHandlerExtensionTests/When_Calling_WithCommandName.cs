@@ -65,12 +65,13 @@ namespace Disclose.Tests.ICommandHandlerExtensionTests
 
             IDiscloseSettings disclose = Substitute.For<IDiscloseSettings>();
             IDiscordCommands discordCommands = Substitute.For<IDiscordCommands>();
+            IDataStore dataStore = Substitute.For<IDataStore>();
 
-            commandHandler.When(ch => ch.Init(disclose, discordCommands)).Do(ci => { });
+            commandHandler.When(ch => ch.Init(disclose, discordCommands, dataStore)).Do(ci => { });
 
-            decoaratedCommandHandler.Init(disclose, discordCommands);
+            decoaratedCommandHandler.Init(disclose, discordCommands, dataStore);
 
-            commandHandler.Received().Init(disclose, discordCommands);
+            commandHandler.Received().Init(disclose, discordCommands, dataStore);
         }
     }
 }

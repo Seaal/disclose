@@ -12,12 +12,14 @@ namespace Disclose.Tests.DiscloseClientTests
         private DiscloseClient _client;
         private ICommandParser _parser;
         private IDiscordClient _discordClient;
+        private IDataStore _dataStore;
 
         [SetUp]
         public void Setup()
         {
             _parser = Substitute.For<ICommandParser>();
             _discordClient = Substitute.For<IDiscordClient>();
+            _dataStore = Substitute.For<IDataStore>();
 
             _client = new DiscloseClient(_discordClient, _parser);
         }
@@ -83,7 +85,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             _client.Register(handler);
 
-            handler.Received(1).Init(_client, _discordClient);
+            handler.Received(1).Init(_client, _discordClient, _dataStore);
         }
 
         [Test]
