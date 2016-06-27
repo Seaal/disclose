@@ -7,5 +7,6 @@ namespace Disclose.DiscordClient
 {
     public interface IServer
     {
+        ulong Id { get; }
     }
 }

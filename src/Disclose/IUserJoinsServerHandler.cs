@@ -8,6 +8,12 @@ namespace Disclose
 {
     public interface IUserJoinsServerHandler : IHandler
     {
+        /// <summary>
+        /// Handles the event of a user joining a server for the first time.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="server"></param>
+        /// <returns></returns>
         Task Handle(IUser user, IServer server);
     }
 }

@@ -7,10 +7,11 @@ namespace Disclose.DiscordClient.DiscordNetAdapters
 {
     public class Server : IServer
     {
+        public ulong Id { get; }
 
         public Server(Discord.Server server)
         {
-            
+            Id = server.Id;
         }
     }
 }

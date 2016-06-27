@@ -17,6 +17,11 @@ namespace Disclose
         IReadOnlyCollection<ICommandHandler> IDiscloseSettings.CommandHandlers => _commandHandlers.Values.ToList();
 
         /// <summary>
+        /// Provides a way of storing data to handlers.
+        /// </summary>
+        public IDataStore DataStore { get; set; }
+
+        /// <summary>
         /// Creates an instance of the DiscloseClient with default implementations and calls Init to set the disclose options.
         /// </summary>
         /// <param name="setOptions">Set your Disclose options here.</param>
@@ -41,6 +46,11 @@ namespace Disclose
 
             _commandHandlers = new Dictionary<string, ICommandHandler>();
             _userJoinsServerHandlers = new List<IUserJoinsServerHandler>();
+        }
+
+        public DiscloseClient(IDiscordClient discordClient, ICommandParser parser, IDataStore dataStore) : this(discordClient, parser)
+        {
+            DataStore = dataStore;
         }
 
         /// <summary>
@@ -77,7 +87,7 @@ namespace Disclose
                 throw new ArgumentException("A command handler with the commmand " + commandHandler.CommandName + " already exists!");
             }
 
-            commandHandler.Init(this, _discordClient);
+            commandHandler.Init(this, _discordClient, DataStore);
 
             _commandHandlers.Add(commandHandler.CommandName.ToLowerInvariant(), commandHandler);
         }
@@ -93,7 +103,7 @@ namespace Disclose
                 throw new ArgumentNullException(nameof(userJoinsServerHandler));
             }
 
-            userJoinsServerHandler.Init(this, _discordClient);
+            userJoinsServerHandler.Init(this, _discordClient, DataStore);
 
             _userJoinsServerHandlers.Add(userJoinsServerHandler);
         }

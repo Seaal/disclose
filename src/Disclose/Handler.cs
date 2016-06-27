@@ -15,10 +15,13 @@ namespace Disclose
 
         protected IDiscordCommands Discord { get; private set; }
 
-        public void Init(IDiscloseSettings disclose, IDiscordCommands discord)
+        protected IDataStore DataStore { get; private set; }
+
+        public void Init(IDiscloseSettings disclose, IDiscordCommands discord, IDataStore dataStore)
         {
             Disclose = disclose;
             Discord = discord;
+            DataStore = dataStore;
         }
     }
 }
