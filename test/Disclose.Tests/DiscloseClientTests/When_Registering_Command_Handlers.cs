@@ -21,7 +21,7 @@ namespace Disclose.Tests.DiscloseClientTests
             _discordClient = Substitute.For<IDiscordClient>();
             _dataStore = Substitute.For<IDataStore>();
 
-            _client = new DiscloseClient(_discordClient, _parser);
+            _client = new DiscloseClient(_discordClient, _parser, _dataStore);
         }
 
         [Test]
