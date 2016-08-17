@@ -2,7 +2,7 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "Disclose": "0.1.0-alpha2",
+    "Disclose": "0.1.0-alpha4",
     "FluentAssertions": "4.8.0",
     "NETStandard.Library": "1.6.0",
     "NSubstitute": "1.10.0",

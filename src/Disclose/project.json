@@ -1,13 +1,13 @@
 {
   "title": "Disclose", 
-  "version": "0.1.0-alpha3",
+  "version": "0.1.0-alpha4",
   "description": "An extendible bot framework for the Discord Chat Application.",
   "authors": [ "Seaal" ],
   "packOptions": {
     "licenseUrl": "https://opensource.org/licenses/MIT"
   },
   "dependencies": {
-    "Discord.Net": "0.9.3.2",
+    "Discord.Net": "0.9.4",
     "NETStandard.Library": "1.6.0"
   },
   "frameworks": {
