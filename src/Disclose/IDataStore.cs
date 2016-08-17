@@ -8,13 +8,13 @@ namespace Disclose
 {
     public interface IDataStore
     {
-        Task<TData> GetServerData<TData>(IServer server, string key);
-        Task SetServerData<TData>(IServer server, string key, TData data);
+        Task<TData> GetServerDataAsync<TData>(IServer server, string key);
+        Task SetServerDataAsync<TData>(IServer server, string key, TData data);
 
-        Task<TData> GetUserData<TData>(IUser user, string key);
-        Task SetUserData<TData>(IUser user, string key, TData data);
+        Task<TData> GetUserDataAsync<TData>(IUser user, string key);
+        Task SetUserDataAsync<TData>(IUser user, string key, TData data);
 
-        Task<TData> GetUserDataForServer<TData>(IServer server, IUser user, string key, TData data);
-        Task SetUserData<TData>(IServer server, IUser user, string key, TData data);
+        Task<TData> GetUserDataForServerAsync<TData>(IServer server, IUser user, string key, TData data);
+        Task SetUserDataForServerAsync<TData>(IServer server, IUser user, string key);
     }
 }
