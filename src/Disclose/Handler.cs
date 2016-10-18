@@ -17,7 +17,8 @@ namespace Disclose
 
         protected IDataStore DataStore { get; private set; }
 
-        public void Init(IDiscloseSettings disclose, IDiscordCommands discord, IDataStore dataStore)
+        /// <inheritdoc />
+        public virtual void Init(IDiscloseSettings disclose, IDiscordCommands discord, IDataStore dataStore)
         {
             Disclose = disclose;
             Discord = discord;
