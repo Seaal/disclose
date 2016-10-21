@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Discord;
 
 namespace Disclose.DiscordClient.DiscordNetAdapters
 {
@@ -50,7 +51,7 @@ namespace Disclose.DiscordClient.DiscordNetAdapters
 
         public Task Connect(string token)
         {
-            return _discordClient.Connect(token);
+            return _discordClient.Connect(token, TokenType.Bot);
         }
     }
 }
