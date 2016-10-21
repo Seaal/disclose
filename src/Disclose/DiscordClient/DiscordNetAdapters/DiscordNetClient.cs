@@ -13,10 +13,12 @@ namespace Disclose.DiscordClient.DiscordNetAdapters
             _discordClient = new Discord.DiscordClient();
             _discordClient.MessageReceived += OnDiscordMessageReceived;
             _discordClient.UserJoined += OnDiscordUserJoined;
+            _discordClient.ServerAvailable += OnDiscordServerAvailable;
         }
 
         public event EventHandler<MessageEventArgs> OnMessageReceived;
-        public event EventHandler<UserEventArgs> OnUserJoinedServer; 
+        public event EventHandler<UserEventArgs> OnUserJoinedServer;
+        public event EventHandler<ServerEventArgs> OnServerAvailable;
 
         public async Task<IMessage> SendMessageToChannel(IChannel channel, string text)
         {
@@ -40,6 +42,11 @@ namespace Disclose.DiscordClient.DiscordNetAdapters
         private void OnDiscordUserJoined(object sender, Discord.UserEventArgs e)
         {
             OnUserJoinedServer?.Invoke(this, new UserEventArgs(new User(e.User), new Server(e.Server)));
+        }
+
+        private void OnDiscordServerAvailable(object sender, Discord.ServerEventArgs e)
+        {
+            OnServerAvailable?.Invoke(this, new ServerEventArgs(new Server(e.Server)));
         }
 
         public ulong ClientId => _discordClient.CurrentUser.Id;

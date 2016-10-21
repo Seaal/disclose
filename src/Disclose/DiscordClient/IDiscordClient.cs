@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Discord;
 
 namespace Disclose.DiscordClient
 {
@@ -12,6 +11,7 @@ namespace Disclose.DiscordClient
 
         event EventHandler<MessageEventArgs> OnMessageReceived;
         event EventHandler<UserEventArgs> OnUserJoinedServer;
+        event EventHandler<ServerEventArgs> OnServerAvailable;
 
     }
 }

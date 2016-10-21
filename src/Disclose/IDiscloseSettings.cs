@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Disclose.DiscordClient;
 
 namespace Disclose
 {
@@ -11,5 +12,6 @@ namespace Disclose
         /// Every Command Handler registered with the disclose client.
         /// </summary>
         IReadOnlyCollection<ICommandHandler> CommandHandlers { get; }
+        IServer Server { get; }
     }
 }
