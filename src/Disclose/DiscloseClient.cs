@@ -170,7 +170,7 @@ namespace Disclose
             {
                 _server = e.Server;
             }
-            else if (_options.ServerFilter == null || !_options.ServerFilter(e.Server))
+            else if (_server != null && (_options.ServerFilter == null || _options.ServerFilter(e.Server)))
             {
                 throw new InvalidOperationException("More than 1 server matched your filter, or no filter was supplied, make your filter more specific.");
             }
