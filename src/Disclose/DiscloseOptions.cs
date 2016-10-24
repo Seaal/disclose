@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Disclose.DiscordClient;
 
 namespace Disclose
 {
@@ -28,11 +30,17 @@ namespace Disclose
         /// </summary>
         public IEnumerable<string> Aliases { get; set; }
 
+        /// <summary>
+        /// Use this to filter which server to use for Private Message contexts. Can be null if the bot is only connected to one server.
+        /// </summary>
+        public Func<IServer, bool> ServerFilter { get; set; }
+
         public DiscloseOptions()
         {
             CommandCharacter = "!";
             UseAlias = true;
             Aliases = new[] {"disclose", "disclosebot"};
+            ServerFilter = null;
         }
     }
 }

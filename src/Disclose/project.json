@@ -1,6 +1,6 @@
 {
   "title": "Disclose", 
-  "version": "0.1.0-alpha4",
+  "version": "0.1.0-alpha6",
   "description": "An extendible bot framework for the Discord Chat Application.",
   "authors": [ "Seaal" ],
   "packOptions": {

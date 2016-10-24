@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Disclose.DiscordClient;
 using Disclose.DiscordClient.DiscordNetAdapters;
+using MessageEventArgs = Disclose.DiscordClient.MessageEventArgs;
+using ServerEventArgs = Disclose.DiscordClient.ServerEventArgs;
+using UserEventArgs = Disclose.DiscordClient.UserEventArgs;
 
 namespace Disclose
 {
@@ -13,8 +16,10 @@ namespace Disclose
         private readonly ICollection<IUserJoinsServerHandler> _userJoinsServerHandlers;
         private DiscloseOptions _options;
         private readonly ICommandParser _parser;
+        private IServer _server;
 
         IReadOnlyCollection<ICommandHandler> IDiscloseSettings.CommandHandlers => _commandHandlers.Values.ToList();
+        IServer IDiscloseSettings.Server => _server;
 
         /// <summary>
         /// Provides a way of storing data to handlers.
@@ -64,6 +69,7 @@ namespace Disclose
 
             _discordClient.OnMessageReceived += OnMessageReceived;
             _discordClient.OnUserJoinedServer += OnUserJoinedServer;
+            _discordClient.OnServerAvailable += OnServerAvailable;
         }
 
         /// <summary>
@@ -155,6 +161,18 @@ namespace Disclose
                 {
                     //Suppress errors here, if one handler fails, we still want the others to run
                 }
+            }
+        }
+
+        private void OnServerAvailable(object sender, ServerEventArgs e)
+        {
+            if (_server == null && (_options.ServerFilter == null || _options.ServerFilter(e.Server)))
+            {
+                _server = e.Server;
+            }
+            else if (_server != null && (_options.ServerFilter == null || _options.ServerFilter(e.Server)))
+            {
+                throw new InvalidOperationException("More than 1 server matched your filter, or no filter was supplied, make your filter more specific.");
             }
         }
     }
