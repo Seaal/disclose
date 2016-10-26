@@ -146,6 +146,11 @@ namespace Disclose
                 return;
             }
 
+            if (commandHandler.ChannelFilter != null && !commandHandler.ChannelFilter(e.Message.Channel))
+            {
+                return;
+            }
+
             await commandHandler.Handle(e.Message, parsedCommand.Argument);
         }
 

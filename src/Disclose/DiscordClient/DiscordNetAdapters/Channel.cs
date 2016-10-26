@@ -13,5 +13,9 @@ namespace Disclose.DiscordClient.DiscordNetAdapters
         {
             DiscordChannel = channel;
         }
+
+        public ulong Id => DiscordChannel.Id;
+        public string Name => DiscordChannel.Name;
+        public bool IsPrivateMessage => DiscordChannel.IsPrivate;
     }
 }

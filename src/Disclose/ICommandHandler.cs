@@ -6,7 +6,7 @@ namespace Disclose
     /// <summary>
     /// Handles commands sent from a user. Must be registered with the Disclose Client.
     /// </summary>
-    public interface ICommandHandler : IHandler
+    public interface ICommandHandler : IChannelHandler<ICommandHandler>
     {
         /// <summary>
         /// The alias for the command. The user has to type this to activate the command.
