@@ -99,6 +99,20 @@ namespace Disclose
         }
 
         /// <summary>
+        /// Runs an installer, adding the installer's handlers to the disclose.
+        /// </summary>
+        /// <param name="installer"></param>
+        public void Install(IInstaller installer)
+        {
+            if (installer == null)
+            {
+                throw new ArgumentNullException(nameof(installer));
+            }
+
+            installer.Install(this);
+        }
+
+        /// <summary>
         /// Registers a handler to handle when a new user joins the server for the first time.
         /// </summary>
         /// <param name="userJoinsServerHandler"></param>
