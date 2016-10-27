@@ -22,9 +22,17 @@ namespace Disclose
 
         public Func<IChannel, bool> ChannelFilter => _commandHandler.ChannelFilter;
 
+        public Func<IUser, bool> UserFilter => _commandHandler.UserFilter;
+
         public void Init(IDiscloseSettings disclose, IDiscordCommands discord, IDataStore dataStore)
         {
             _commandHandler.Init(disclose, discord, dataStore);
+        }
+
+        
+        public ICommandHandler RestrictToUsers(Func<IUser, bool> user)
+        {
+            return _commandHandler.RestrictToUsers(user);
         }
 
         public Task Handle(IMessage message, string arguments)

@@ -6,7 +6,7 @@ using Disclose.DiscordClient;
 
 namespace Disclose
 {
-    public abstract class ChannelHandler<T> : Handler, IChannelHandler<T> where T : class, IChannelHandler<T>
+    public abstract class ChannelHandler<T> : Handler<T>, IChannelHandler<T> where T : class, IChannelHandler<T>
     {
         public Func<IChannel, bool> ChannelFilter { get; private set; }
 

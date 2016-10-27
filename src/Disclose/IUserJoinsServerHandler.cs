@@ -6,7 +6,7 @@ using Disclose.DiscordClient;
 
 namespace Disclose
 {
-    public interface IUserJoinsServerHandler : IHandler
+    public interface IUserJoinsServerHandler : IHandler<IUserJoinsServerHandler>
     {
         /// <summary>
         /// Handles the event of a user joining a server for the first time.

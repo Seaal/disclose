@@ -9,12 +9,16 @@ namespace Disclose.DiscordClient.DiscordNetAdapters
     {
         public Discord.User DiscordUser { get; }
 
-        public ulong Id { get; }
+        public ulong Id => DiscordUser.Id;
+
+        public string Name => DiscordUser.Name;
+
+
+        public IEnumerable<IRole> Roles => DiscordUser.Roles.Select(r => new Role(r));
 
         public User(Discord.User user)
         {
             DiscordUser = user;
-            Id = user.Id;
         }
     }
 }
