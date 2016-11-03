@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Disclose.DiscordClient;
 
 namespace Disclose
 {
     public class CommandParser : ICommandParser
     {
         private Regex _commandRegex;
+        private Regex _directMessageCommandRegex;
 
         public void Init(DiscloseOptions options)
         {
@@ -24,11 +26,24 @@ namespace Disclose
             }
 
             _commandRegex = new Regex(regex);
+
+            if (options.SimpleDirectMessages)
+            {
+                string directMessageRegex = "^(\\S+)(?: ([\\s\\S]+))?";
+
+                _directMessageCommandRegex = new Regex(directMessageRegex);
+            }
+            else
+            {
+                _directMessageCommandRegex = _commandRegex;
+            }
     }
 
-        public ParsedCommand ParseCommand(string message)
+        public ParsedCommand ParseCommand(IMessage message)
         {
-            Match match = _commandRegex.Match(message);
+            Regex parsingRegex = GetParsingRegex(message);
+
+            Match match = parsingRegex.Match(message.Text);
 
             if (!match.Success)
             {
@@ -50,6 +65,16 @@ namespace Disclose
                 Command = command.ToLowerInvariant(),
                 Success = true
             };
+        }
+
+        private Regex GetParsingRegex(IMessage message)
+        {
+            if (message.Channel.IsPrivateMessage)
+            {
+                return _directMessageCommandRegex;
+            }
+
+            return _commandRegex;
         }
     }
 }

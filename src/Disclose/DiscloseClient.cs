@@ -144,7 +144,7 @@ namespace Disclose
                 return;
             }
 
-            ParsedCommand parsedCommand = _parser.ParseCommand(e.Message.Text);
+            ParsedCommand parsedCommand = _parser.ParseCommand(e.Message);
 
             if (!parsedCommand.Success)
             {

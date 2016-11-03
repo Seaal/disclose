@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Disclose.DiscordClient;
 using FluentAssertions;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Disclose.Tests.CommandParserTests
@@ -12,6 +14,7 @@ namespace Disclose.Tests.CommandParserTests
     {
         private CommandParser _parser;
         private DiscloseOptions _options;
+        private IMessage _message;
 
         [SetUp]
         public void Setup()
@@ -24,6 +27,8 @@ namespace Disclose.Tests.CommandParserTests
                 CommandCharacter = "!",
                 Aliases = new [] { "test", "testbot" }
             };
+
+            _message = Substitute.For<IMessage>();
         }
 
         [Test]
@@ -31,7 +36,9 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            ParsedCommand parsedCommand = _parser.ParseCommand("!");
+            _message.Text.Returns("!");
+
+            ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
             parsedCommand.Success.Should().BeFalse();
         }
@@ -47,7 +54,9 @@ namespace Disclose.Tests.CommandParserTests
 
             _parser.Init(_options);
 
-            ParsedCommand parsedCommand = _parser.ParseCommand(character + alias + " test");
+            _message.Text.Returns(character + alias + " test");
+
+            ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
             parsedCommand.Success.Should().BeTrue();
         }
@@ -60,7 +69,9 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            ParsedCommand parsedCommand = _parser.ParseCommand(testString);
+            _message.Text.Returns(testString);
+
+            ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
             parsedCommand.Success.Should().BeFalse();
         }
@@ -73,7 +84,9 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            ParsedCommand parsedCommand = _parser.ParseCommand(testString);
+            _message.Text.Returns(testString);
+
+            ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
             parsedCommand.Success.Should().BeFalse();
         }
@@ -86,7 +99,9 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            ParsedCommand parsedCommand = _parser.ParseCommand("!test " + command);
+            _message.Text.Returns("!test " + command);
+
+            ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
             parsedCommand.Success.Should().BeTrue();
             parsedCommand.Command.Should().Be(command);
@@ -100,7 +115,9 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            ParsedCommand parsedCommand = _parser.ParseCommand("!test " + command + " arguments");
+            _message.Text.Returns("!test " + command + " arguments");
+
+            ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
             parsedCommand.Success.Should().BeTrue();
             parsedCommand.Command.Should().Be(command);
@@ -114,7 +131,9 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            ParsedCommand parsedCommand = _parser.ParseCommand("!test command " + argument);
+            _message.Text.Returns("!test command " + argument);
+
+            ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
             parsedCommand.Success.Should().BeTrue();
             parsedCommand.Argument.Should().Be(argument);
@@ -128,7 +147,9 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            ParsedCommand parsedCommand = _parser.ParseCommand("!test " + command);
+            _message.Text.Returns("!test " + command);
+
+            ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
             parsedCommand.Success.Should().BeTrue();
             parsedCommand.Command.Should().Be(command.ToLowerInvariant());

@@ -32,7 +32,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             _discordClient.OnMessageReceived += Raise.EventWith(new object(), new MessageEventArgs(message));
 
-            _parser.Received(0).ParseCommand(Arg.Any<string>());
+            _parser.Received(0).ParseCommand(Arg.Any<IMessage>());
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             message.User.Id.Returns((ulong)123);
 
-            _parser.ParseCommand(Arg.Any<string>()).Returns(ParsedCommand.Unsuccessful());
+            _parser.ParseCommand(Arg.Any<IMessage>()).Returns(ParsedCommand.Unsuccessful());
 
             ICommandHandler commandHandler = Substitute.For<ICommandHandler>();
 
@@ -62,7 +62,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             message.User.Id.Returns((ulong)123);
 
-            _parser.ParseCommand(Arg.Any<string>()).Returns(new ParsedCommand()
+            _parser.ParseCommand(Arg.Any<IMessage>()).Returns(new ParsedCommand()
             {
                 Success = true,
                 Command = "test"
@@ -86,7 +86,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             message.User.Id.Returns((ulong)123);
 
-            _parser.ParseCommand(Arg.Any<string>()).Returns(new ParsedCommand()
+            _parser.ParseCommand(message).Returns(new ParsedCommand()
             {
                 Success = true,
                 Command = "test"
@@ -110,7 +110,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             message.User.Id.Returns((ulong)123);
 
-            _parser.ParseCommand(Arg.Any<string>()).Returns(new ParsedCommand()
+            _parser.ParseCommand(message).Returns(new ParsedCommand()
             {
                 Success = true,
                 Command = "test",

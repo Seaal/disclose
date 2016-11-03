@@ -35,12 +35,18 @@ namespace Disclose
         /// </summary>
         public Func<IServer, bool> ServerFilter { get; set; }
 
+        /// <summary>
+        /// If true, when Direct Messaging the bot only the command and its arguments need to be typed. e.g. <c>help</c> instead of <c>!disclose help</c>
+        /// </summary>
+        public bool SimpleDirectMessages { get; set; }
+
         public DiscloseOptions()
         {
             CommandCharacter = "!";
             UseAlias = true;
             Aliases = new[] {"disclose", "disclosebot"};
             ServerFilter = null;
+            SimpleDirectMessages = true;
         }
     }
 }
