@@ -47,6 +47,8 @@ static void Main(string[] args)
 }
 ```
 
+* Run your bot program, and type `!echo test` into a channel your bot can see.
+
 **You can find common command handlers at the [Disclose Commands](https://github.com/Seaal/disclose-commands) repository.**
 
 ## I want to contribute
