@@ -17,13 +17,13 @@ Discord.NET is a great library, but I found myself writing a gigantic configurat
 * Create a command handler for your bot:
 
 ``` C#
-public class EchoCommandHandler : Handler, ICommandHandler
+public class EchoCommandHandler : CommandHandler
 {
-    public string CommandName => "echo";
+    public override string CommandName => "echo";
 
-    public string Description => "Repeats what the user says.";
+    public override string Description => "Repeats what the user says.";
 
-    public async Task Handle(IMessage message, string arguments)
+    public override async Task Handle(IMessage message, string arguments)
     {
         await Discord.SendMessageToChannel(message.Channel, arguments);
     }
