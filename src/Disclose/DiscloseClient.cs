@@ -190,6 +190,11 @@ namespace Disclose
 
         private void OnServerAvailable(object sender, ServerEventArgs e)
         {
+            if (_server?.Id == e.Server.Id)
+            {
+                return;
+            }
+
             if (_server == null && (_options.ServerFilter == null || _options.ServerFilter(e.Server)))
             {
                 _server = e.Server;
