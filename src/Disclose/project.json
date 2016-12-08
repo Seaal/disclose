@@ -21,5 +21,9 @@
   },
   "buildOptions": {
     "xmlDoc": true
+  },
+  "scripts": {
+    "postbuild": "dotnet test ../../test/Disclose.Tests"
   }
+    
 }
