@@ -82,7 +82,7 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            _message.Text.Returns(command);
+            _message.Text.Returns("!" + command);
 
             ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 

@@ -1,4 +1,6 @@
-﻿using Disclose.DiscordClient;
+﻿using System;
+using System.Threading.Tasks;
+using Disclose.DiscordClient;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -40,6 +42,7 @@ namespace Disclose.Tests.DiscloseClientTests
         {
             IMessage message = Substitute.For<IMessage>();
 
+            message.User.Id.Returns((ulong)123);
             message.User.Id.Returns((ulong)123);
 
             _parser.ParseCommand(Arg.Any<IMessage>()).Returns(ParsedCommand.Unsuccessful());
@@ -95,6 +98,8 @@ namespace Disclose.Tests.DiscloseClientTests
             ICommandHandler commandHandler = Substitute.For<ICommandHandler>();
 
             commandHandler.CommandName.Returns("test");
+            commandHandler.UserFilter.Returns((Func<IUser, bool>)null);
+            commandHandler.ChannelFilter.Returns((Func<IChannel, bool>)null);
 
             _discloseClient.Register(commandHandler);
 
@@ -120,6 +125,8 @@ namespace Disclose.Tests.DiscloseClientTests
             ICommandHandler commandHandler = Substitute.For<ICommandHandler>();
 
             commandHandler.CommandName.Returns("test");
+            commandHandler.UserFilter.Returns((Func<IUser, bool>)null);
+            commandHandler.ChannelFilter.Returns((Func<IChannel, bool>) null);
 
             _discloseClient.Register(commandHandler);
 
