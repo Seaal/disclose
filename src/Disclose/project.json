@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "Discord.Net": "0.9.6",
-    "NETStandard.Library": "1.6.0"
+    "NETStandard.Library": "1.6.1"
   },
   "frameworks": {
     "net451": { },

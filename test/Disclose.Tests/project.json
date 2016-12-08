@@ -3,9 +3,9 @@
 
   "dependencies": {
     "Disclose": "0.1.0-alpha5",
-    "FluentAssertions": "4.15.0",
-    "NETStandard.Library": "1.6.0",
-    "NSubstitute": "1.10.0",
+    "FluentAssertions": "4.18.0",
+    "NETStandard.Library": "1.6.1",
+    "NSubstitute": "2.0.0-rc",
     "NUnit": "3.5.0"
   },
 
