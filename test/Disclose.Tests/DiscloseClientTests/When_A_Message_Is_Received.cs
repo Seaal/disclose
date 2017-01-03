@@ -109,6 +109,110 @@ namespace Disclose.Tests.DiscloseClientTests
         }
 
         [Test]
+        public void Should_Not_Handle_If_UserFilter_Returns_False()
+        {
+            IMessage message = Substitute.For<IMessage>();
+
+            message.User.Id.Returns((ulong)123);
+
+            _parser.ParseCommand(message).Returns(new ParsedCommand()
+            {
+                Success = true,
+                Command = "test"
+            });
+
+            ICommandHandler commandHandler = Substitute.For<ICommandHandler>();
+
+            commandHandler.CommandName.Returns("test");
+            commandHandler.UserFilter.Returns(u => false);
+            commandHandler.ChannelFilter.Returns((Func<IChannel, bool>)null);
+
+            _discloseClient.Register(commandHandler);
+
+            _discordClient.OnMessageReceived += Raise.EventWith(new object(), new MessageEventArgs(message));
+
+            commandHandler.Received(0).Handle(message, Arg.Any<string>());
+        }
+
+        [Test]
+        public void Should_Handle_If_UserFilter_Returns_True()
+        {
+            IMessage message = Substitute.For<IMessage>();
+
+            message.User.Id.Returns((ulong)123);
+
+            _parser.ParseCommand(message).Returns(new ParsedCommand()
+            {
+                Success = true,
+                Command = "test"
+            });
+
+            ICommandHandler commandHandler = Substitute.For<ICommandHandler>();
+
+            commandHandler.CommandName.Returns("test");
+            commandHandler.UserFilter.Returns(u => true);
+            commandHandler.ChannelFilter.Returns((Func<IChannel, bool>)null);
+
+            _discloseClient.Register(commandHandler);
+
+            _discordClient.OnMessageReceived += Raise.EventWith(new object(), new MessageEventArgs(message));
+
+            commandHandler.Received(1).Handle(message, Arg.Any<string>());
+        }
+
+        [Test]
+        public void Should_Not_Handle_If_ChannelFilter_Returns_False()
+        {
+            IMessage message = Substitute.For<IMessage>();
+
+            message.User.Id.Returns((ulong)123);
+
+            _parser.ParseCommand(message).Returns(new ParsedCommand()
+            {
+                Success = true,
+                Command = "test"
+            });
+
+            ICommandHandler commandHandler = Substitute.For<ICommandHandler>();
+
+            commandHandler.CommandName.Returns("test");
+            commandHandler.UserFilter.Returns((Func<IUser, bool>)null);
+            commandHandler.ChannelFilter.Returns(c => false);
+
+            _discloseClient.Register(commandHandler);
+
+            _discordClient.OnMessageReceived += Raise.EventWith(new object(), new MessageEventArgs(message));
+
+            commandHandler.Received(0).Handle(message, Arg.Any<string>());
+        }
+
+        [Test]
+        public void Should_Handle_If_ChannelFilter_Returns_True()
+        {
+            IMessage message = Substitute.For<IMessage>();
+
+            message.User.Id.Returns((ulong)123);
+
+            _parser.ParseCommand(message).Returns(new ParsedCommand()
+            {
+                Success = true,
+                Command = "test"
+            });
+
+            ICommandHandler commandHandler = Substitute.For<ICommandHandler>();
+
+            commandHandler.CommandName.Returns("test");
+            commandHandler.UserFilter.Returns((Func<IUser, bool>)null);
+            commandHandler.ChannelFilter.Returns(c => true);
+
+            _discloseClient.Register(commandHandler);
+
+            _discordClient.OnMessageReceived += Raise.EventWith(new object(), new MessageEventArgs(message));
+
+            commandHandler.Received(1).Handle(message, Arg.Any<string>());
+        }
+
+        [Test]
         public void Should_Pass_Arguments_From_ParsedCommand()
         {
             IMessage message = Substitute.For<IMessage>();

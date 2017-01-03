@@ -16,13 +16,13 @@ namespace Disclose.Tests.ICommandHandlerExtensionTests
         private ICommandHandler commandHandler;
 
         [SetUp]
-        public void setup()
+        public void Setup()
         {
             commandHandler = Substitute.For<ICommandHandler>();
         }
 
         [Test]
-        [TestCase("test", "test2")]
+        [TestCase("test123", "test2345")]
         public void CommandName_Should_Be_New_CommandName(string originalCommandName, string newCommandName)
         {
             commandHandler.CommandName.Returns(originalCommandName);
@@ -37,15 +37,39 @@ namespace Disclose.Tests.ICommandHandlerExtensionTests
         {
             commandHandler.Description.Returns("helloworld");
 
-            commandHandler = commandHandler.WithCommandName(Arg.Any<string>());
+            commandHandler = commandHandler.WithCommandName("test");
 
             commandHandler.Description.Should().Be("helloworld");
         }
 
         [Test]
+        public void UserFilter_Should_Not_Change()
+        {
+            Func<IUser, bool> userFilter = u => false;
+
+            commandHandler.UserFilter.Returns(userFilter);
+
+            commandHandler = commandHandler.WithCommandName("test");
+
+            commandHandler.UserFilter.Should().BeSameAs(userFilter);
+        }
+
+        [Test]
+        public void ChannelFilter_Should_Not_Change()
+        {
+            Func<IChannel, bool> channelFilter = c => false;
+
+            commandHandler.ChannelFilter.Returns(channelFilter);
+
+            commandHandler = commandHandler.WithCommandName("test");
+
+            commandHandler.ChannelFilter.Should().BeSameAs(channelFilter);
+        }
+
+        [Test]
         public async Task Handle_Should_Still_Be_Called()
         {
-            ICommandHandler decoaratedCommandHandler = commandHandler.WithCommandName(Arg.Any<string>());
+            ICommandHandler decoaratedCommandHandler = commandHandler.WithCommandName("test");
 
             IMessage message = Substitute.For<IMessage>();
             string arguments = "test";
@@ -61,7 +85,7 @@ namespace Disclose.Tests.ICommandHandlerExtensionTests
         [Test]
         public void Init_Should_Still_Be_Called()
         {
-            ICommandHandler decoaratedCommandHandler = commandHandler.WithCommandName(Arg.Any<string>());
+            ICommandHandler decoaratedCommandHandler = commandHandler.WithCommandName("test");
 
             IDiscloseSettings disclose = Substitute.For<IDiscloseSettings>();
             IDiscordCommands discordCommands = Substitute.For<IDiscordCommands>();
