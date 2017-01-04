@@ -25,13 +25,13 @@ namespace Disclose
                 regex = $"^(?:{identifier})(\\S+)(?:\\s+([\\s\\S]+))?";
             }
 
-            _commandRegex = new Regex(regex);
+            _commandRegex = new Regex(regex, RegexOptions.Singleline | RegexOptions.Compiled);
 
             if (options.SimpleDirectMessages)
             {
                 string directMessageRegex = "^(\\S+)(?:\\s+([\\s\\S]+))?";
 
-                _directMessageCommandRegex = new Regex(directMessageRegex);
+                _directMessageCommandRegex = new Regex(directMessageRegex, RegexOptions.Singleline | RegexOptions.Compiled);
             }
             else
             {
