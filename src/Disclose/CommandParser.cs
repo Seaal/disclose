@@ -18,18 +18,18 @@ namespace Disclose
             {
                 string aliases = String.Join("|", options.Aliases);
 
-                regex = $"^(?:{identifier}(?:{aliases})) (\\S+)(?: ([\\s\\S]+))?";
+                regex = $"^(?:{identifier}(?:{aliases}))\\s+(\\S+)(?:\\s+([\\s\\S]+))?";
             }
             else
             {
-                regex = $"^(?:{identifier})(\\S+)(?: ([\\s\\S]+))?";
+                regex = $"^(?:{identifier})(\\S+)(?:\\s+([\\s\\S]+))?";
             }
 
             _commandRegex = new Regex(regex);
 
             if (options.SimpleDirectMessages)
             {
-                string directMessageRegex = "^(\\S+)(?: ([\\s\\S]+))?";
+                string directMessageRegex = "^(\\S+)(?:\\s+([\\s\\S]+))?";
 
                 _directMessageCommandRegex = new Regex(directMessageRegex);
             }

@@ -137,5 +137,24 @@ namespace Disclose.Tests.CommandParserTests
             parsedCommand.Success.Should().BeTrue();
             parsedCommand.Command.Should().Be(command.ToLowerInvariant());
         }
+
+        [Test]
+        [TestCase(" ")]
+        [TestCase("\t")]
+        [TestCase("\n\n")]
+        [TestCase(" \t\t \n\n \t  ")]
+        [TestCase("\r\n")]
+        public void Should_Match_If_Any_White_Space_Between_Command_And_Argument(string whiteSpace)
+        {
+            _parser.Init(_options);
+
+            _message.Text.Returns("!command" + whiteSpace + "argument test");
+
+            ParsedCommand parsedCommand = _parser.ParseCommand(_message);
+
+            parsedCommand.Success.Should().BeTrue();
+            parsedCommand.Command.Should().Be("command");
+            parsedCommand.Argument.Should().Be("argument test");
+        }
     }
 }
