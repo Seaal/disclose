@@ -1,5 +1,7 @@
 # Disclose
 
+[![Build status](https://ci.appveyor.com/api/projects/status/rgb3s6mbgn0d007w?svg=true)](https://ci.appveyor.com/project/Seaal/disclose)
+
 Disclose is a framework for creating bots in the Discord chat application. It's built from the ground up to be flexible and simplify the creation of a bot. Disclose currently builds on top of Discord.NET, a free open-source library for connecting to the Discord API.
 
 ## Why Disclose?
