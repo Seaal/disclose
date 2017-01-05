@@ -139,12 +139,14 @@ namespace Disclose
 
         private async void OnMessageReceived(object sender, MessageEventArgs e)
         {
-            if (e.Message.User.Id == _discordClient.ClientId)
+            IMessage message = e.Message;
+
+            if (message.User.Id == _discordClient.ClientId)
             {
                 return;
             }
 
-            ParsedCommand parsedCommand = _parser.ParseCommand(e.Message);
+            ParsedCommand parsedCommand = _parser.ParseCommand(message);
 
             if (!parsedCommand.Success)
             {
@@ -160,17 +162,30 @@ namespace Disclose
                 return;
             }
 
-            if (commandHandler.ChannelFilter != null && !commandHandler.ChannelFilter(e.Message.Channel))
+            if (commandHandler.ChannelFilter != null && !commandHandler.ChannelFilter(message.Channel))
             {
                 return;
             }
 
-            if (commandHandler.UserFilter != null && !commandHandler.UserFilter(e.Message.User))
+            if (message.Channel.IsPrivateMessage)
+            {
+                //User objects in Direct Messages don't have roles because there is no server context. So find the user on the server and use that user to have the user's roles available
+                IUser userWithRoles = _server.Users.FirstOrDefault(u => u.Id == message.User.Id);
+
+                if (userWithRoles == null)
+                {
+                    return;
+                }
+
+                message = new PrivateMessage(message, userWithRoles);
+            }
+
+            if (commandHandler.UserFilter != null && !commandHandler.UserFilter(message.User))
             {
                 return;
             }
 
-            await commandHandler.Handle(e.Message, parsedCommand.Argument);
+            await commandHandler.Handle(message, parsedCommand.Argument);
         }
 
         private async void OnUserJoinedServer(object sender, UserEventArgs e)

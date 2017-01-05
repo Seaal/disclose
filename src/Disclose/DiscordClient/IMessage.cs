@@ -7,7 +7,7 @@ namespace Disclose.DiscordClient
 {
     public interface IMessage
     {
-        string Text { get; set; }
+        string Text { get; }
 
         IChannel Channel { get; }
 

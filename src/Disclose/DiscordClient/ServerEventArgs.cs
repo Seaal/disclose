@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Disclose.DiscordClient
 {
-    public class ServerEventArgs
+    public class ServerEventArgs : EventArgs
     {
         public IServer Server { get; }
 

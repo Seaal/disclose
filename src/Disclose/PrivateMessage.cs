@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
+using Disclose.DiscordClient;
 
-namespace Disclose.DiscordClient.DiscordNetAdapters
+namespace Disclose
 {
-    public class Message : IMessage
+    internal class PrivateMessage : IMessage
     {
         public string Text { get; }
         public IChannel Channel { get; }
         public IUser User { get; }
 
-        public Message(Discord.Message message)
+        public PrivateMessage(IMessage message, IUser user)
         {
             Text = message.Text;
-            Channel = new Channel(message.Channel);
-            User = new User(message.User);
+            Channel = message.Channel;
+            User = user;
         }
     }
 }

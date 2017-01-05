@@ -7,13 +7,16 @@ namespace Disclose.DiscordClient.DiscordNetAdapters
 {
     public class Server : IServer
     {
-        public ulong Id { get; }
-        public string Name { get; }
+        private readonly Discord.Server _discordServer;
+
+        public ulong Id => _discordServer.Id;
+        public string Name => _discordServer.Name;
+
+        public IEnumerable<IUser> Users => _discordServer.Users.Select(u => new User(u));
 
         public Server(Discord.Server server)
         {
-            Id = server.Id;
-            Name = server.Name;
+            _discordServer = server;
         }
     }
 }
