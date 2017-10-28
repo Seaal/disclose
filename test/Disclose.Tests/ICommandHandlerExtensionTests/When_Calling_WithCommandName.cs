@@ -79,7 +79,7 @@ namespace Disclose.Tests.ICommandHandlerExtensionTests
 
             await decoaratedCommandHandler.Handle(message, arguments);
 
-            commandHandler.Received().Handle(message, arguments);
+            await commandHandler.Received().Handle(message, arguments);
         }
 
         [Test]

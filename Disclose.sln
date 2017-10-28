@@ -1,20 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CB075782-C9E7-48C1-BA07-0D279BB790BB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B16F5D59-DE1B-44DF-9A0B-5EC43B8EE686}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Disclose", "src\Disclose\Disclose.xproj", "{945825FF-708B-497C-88C3-C3A4760C4EBE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{B73B4270-82C3-4696-A327-44FF737D29F4}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Disclose.Tests", "test\Disclose.Tests\Disclose.Tests.xproj", "{FC1943B3-A38C-4F7D-B782-40011CA06212}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Disclose", "src\Disclose\Disclose.xproj", "{945825FF-708B-497C-88C3-C3A4760C4EBE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Disclose.Tests", "test\Disclose.Tests\Disclose.Tests.csproj", "{FC1943B3-A38C-4F7D-B782-40011CA06212}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,5 +34,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{945825FF-708B-497C-88C3-C3A4760C4EBE} = {CB075782-C9E7-48C1-BA07-0D279BB790BB}
 		{FC1943B3-A38C-4F7D-B782-40011CA06212} = {B73B4270-82C3-4696-A327-44FF737D29F4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {31B602D4-9414-4AF6-8E02-35C5BC30C632}
 	EndGlobalSection
 EndGlobal
