@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Disclose
+﻿namespace Disclose
 {
     /// <summary>
     /// Installers can be used to install multiple different handlers linking to a single feature.

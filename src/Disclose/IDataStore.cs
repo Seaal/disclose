@@ -1,5 +1,4 @@
-﻿using Disclose.DiscordClient;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Disclose
 {
@@ -15,7 +14,7 @@ namespace Disclose
         /// <param name="server">The server to return data for.</param>
         /// <param name="key">The key to return data for.</param>
         /// <returns>A Task representing the data stored against the given server/key.</returns>
-        Task<TData> GetServerDataAsync<TData>(IServer server, string key);
+        Task<TData> GetServerDataAsync<TData>(DiscloseServer server, string key);
 
         /// <summary>
         /// Adds/Updates data for a server using the given key.
@@ -25,7 +24,7 @@ namespace Disclose
         /// <param name="key">The key to set the data for.</param>
         /// <param name="data">The data to store for the given server/key.</param>
         /// <returns>A Task representing the completion of the operation.</returns>
-        Task SetServerDataAsync<TData>(IServer server, string key, TData data);
+        Task SetServerDataAsync<TData>(DiscloseServer server, string key, TData data);
 
         /// <summary>
         /// Returns data for a user stored against the given key.
@@ -34,7 +33,7 @@ namespace Disclose
         /// <param name="user">The data to return data for.</param>
         /// <param name="key">The key to return data for.</param>
         /// <returns>A Task representing the data stored against the given user/key.</returns>
-        Task<TData> GetUserDataAsync<TData>(IUser user, string key);
+        Task<TData> GetUserDataAsync<TData>(DiscloseUser user, string key);
 
         /// <summary>
         /// Adds/Updates data for a user using the given key.
@@ -44,7 +43,7 @@ namespace Disclose
         /// <param name="key">The key to set the data for.</param>
         /// <param name="data">The data to store for the given server/key.</param>
         /// <returns>A Task representing the completion of the operation.</returns>
-        Task SetUserDataAsync<TData>(IUser user, string key, TData data);
+        Task SetUserDataAsync<TData>(DiscloseUser user, string key, TData data);
 
         /// <summary>
         /// Returns data specific to a user on a server stored against the given key. 
@@ -54,7 +53,7 @@ namespace Disclose
         /// <param name="user">The user on the server to return the data for.</param>
         /// <param name="key">The key to return the data for.</param>
         /// <returns>A Task representing the data stored against the given server/user/key.</returns>
-        Task<TData> GetUserDataForServerAsync<TData>(IServer server, IUser user, string key);
+        Task<TData> GetUserDataForServerAsync<TData>(DiscloseServer server, DiscloseUser user, string key);
 
         /// <summary>
         /// Adds/Updates data specific to a user on a server stored against the given key.
@@ -65,6 +64,6 @@ namespace Disclose
         /// <param name="key">The key to set the data for.</param>
         /// <param name="data">The data to store for the given server/user/key.</param>
         /// <returns>A Task representing the completion of the operation.</returns>
-        Task SetUserDataForServerAsync<TData>(IServer server, IUser user, string key, TData data);
+        Task SetUserDataForServerAsync<TData>(DiscloseServer server, DiscloseUser user, string key, TData data);
     }
 }

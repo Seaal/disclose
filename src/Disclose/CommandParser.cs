@@ -4,7 +4,7 @@ using Disclose.DiscordClient;
 
 namespace Disclose
 {
-    public class CommandParser : ICommandParser
+    internal class CommandParser : ICommandParser
     {
         private Regex _commandRegex;
         private Regex _directMessageCommandRegex;
@@ -43,7 +43,7 @@ namespace Disclose
         {
             Regex parsingRegex = GetParsingRegex(message);
 
-            Match match = parsingRegex.Match(message.Text);
+            Match match = parsingRegex.Match(message.Content);
 
             if (!match.Success)
             {

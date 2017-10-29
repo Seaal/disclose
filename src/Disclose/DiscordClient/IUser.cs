@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Disclose.DiscordClient
+﻿namespace Disclose.DiscordClient
 {
     public interface IUser
     {
         ulong Id { get; }
 
         string Name { get; }
-
-        IEnumerable<IRole> Roles { get; }
     }
 }

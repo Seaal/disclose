@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Disclose.DiscordClient;
 
 namespace Disclose
@@ -11,24 +8,21 @@ namespace Disclose
     /// </summary>
     public abstract class Handler<T> : IHandler<T> where T : class, IHandler<T>
     {
-        protected IDiscloseSettings Disclose { get; private set; }
-
-        protected IDiscordCommands Discord { get; private set; }
+        protected IDiscloseFacade Disclose { get; private set; }
 
         protected IDataStore DataStore { get; private set; }
 
-        public Func<IUser, bool> UserFilter { get; private set; }
+        public Func<DiscloseUser, bool> UserFilter { get; private set; }
 
         /// <inheritdoc />
-        public virtual void Init(IDiscloseSettings disclose, IDiscordCommands discord, IDataStore dataStore)
+        public virtual void Init(IDiscloseFacade disclose, IDataStore dataStore)
         {
             Disclose = disclose;
-            Discord = discord;
             DataStore = dataStore;
         }
 
         /// <inheritdoc />
-        public T RestrictToUsers(Func<IUser, bool> user)
+        public T RestrictToUsers(Func<DiscloseUser, bool> user)
         {
             UserFilter = user;
 

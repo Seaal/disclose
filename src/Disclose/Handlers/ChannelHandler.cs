@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Disclose.DiscordClient;
 
 namespace Disclose
 {
     public abstract class ChannelHandler<T> : Handler<T>, IChannelHandler<T> where T : class, IChannelHandler<T>
     {
-        public Func<IChannel, bool> ChannelFilter { get; private set; }
+        public Func<DiscloseChannel, bool> ChannelFilter { get; private set; }
 
         /// <inheritdoc />
-        public T RestrictedToChannels(Func<IChannel, bool> channel)
+        public T RestrictedToChannels(Func<DiscloseChannel, bool> channel)
         {
             ChannelFilter = channel;
 

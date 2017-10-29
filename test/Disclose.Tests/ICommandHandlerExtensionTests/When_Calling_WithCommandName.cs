@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Disclose.DiscordClient;
 using FluentAssertions;
@@ -45,7 +42,7 @@ namespace Disclose.Tests.ICommandHandlerExtensionTests
         [Test]
         public void UserFilter_Should_Not_Change()
         {
-            Func<IUser, bool> userFilter = u => false;
+            Func<DiscloseUser, bool> userFilter = u => false;
 
             commandHandler.UserFilter.Returns(userFilter);
 
@@ -57,7 +54,7 @@ namespace Disclose.Tests.ICommandHandlerExtensionTests
         [Test]
         public void ChannelFilter_Should_Not_Change()
         {
-            Func<IChannel, bool> channelFilter = c => false;
+            Func<DiscloseChannel, bool> channelFilter = c => false;
 
             commandHandler.ChannelFilter.Returns(channelFilter);
 
@@ -71,7 +68,7 @@ namespace Disclose.Tests.ICommandHandlerExtensionTests
         {
             ICommandHandler decoaratedCommandHandler = commandHandler.WithCommandName("test");
 
-            IMessage message = Substitute.For<IMessage>();
+            DiscloseMessage message = new DiscloseMessage(Substitute.For<IMessage>(), null);
             string arguments = "test";
 
             commandHandler.Handle(message, arguments)
@@ -87,15 +84,14 @@ namespace Disclose.Tests.ICommandHandlerExtensionTests
         {
             ICommandHandler decoaratedCommandHandler = commandHandler.WithCommandName("test");
 
-            IDiscloseSettings disclose = Substitute.For<IDiscloseSettings>();
-            IDiscordCommands discordCommands = Substitute.For<IDiscordCommands>();
+            IDiscloseFacade disclose = Substitute.For<IDiscloseFacade>();
             IDataStore dataStore = Substitute.For<IDataStore>();
 
-            commandHandler.When(ch => ch.Init(disclose, discordCommands, dataStore)).Do(ci => { });
+            commandHandler.When(ch => ch.Init(disclose, dataStore)).Do(ci => { });
 
-            decoaratedCommandHandler.Init(disclose, discordCommands, dataStore);
+            decoaratedCommandHandler.Init(disclose, dataStore);
 
-            commandHandler.Received().Init(disclose, discordCommands, dataStore);
+            commandHandler.Received().Init(disclose, dataStore);
         }
     }
 }

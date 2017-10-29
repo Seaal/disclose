@@ -1,22 +1,30 @@
-﻿using System;
+﻿using Discord;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Disclose.DiscordClient.DiscordNetAdapters
 {
-    public class Server : IServer
+    internal class Server : IServer
     {
-        private readonly Discord.Server _discordServer;
+        private readonly IGuild _guild;
 
-        public ulong Id => _discordServer.Id;
-        public string Name => _discordServer.Name;
+        public ulong Id => _guild.Id;
+        public string Name => _guild.Name;
 
-        public IEnumerable<IUser> Users => _discordServer.Users.Select(u => new User(u));
-
-        public Server(Discord.Server server)
+        public Server(IGuild server)
         {
-            _discordServer = server;
+            _guild = server;
+        }
+
+        public async Task<IEnumerable<IServerUser>> GetUsersAsync()
+        {
+            return (await _guild.GetUsersAsync()).Select(u => new ServerUser(u));
+        }
+
+        public IEnumerable<IRole> GetRoles()
+        {
+            return _guild.Roles.Select(r => new Role(r));
         }
     }
 }

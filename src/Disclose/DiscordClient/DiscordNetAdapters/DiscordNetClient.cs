@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Discord;
+using Discord.WebSocket;
 
 namespace Disclose.DiscordClient.DiscordNetAdapters
 {
     public class DiscordNetClient : IDiscordClient
     {
-        private readonly Discord.DiscordClient _discordClient;
+        private readonly DiscordSocketClient _discordClient;
 
         public DiscordNetClient()
         {
-            _discordClient = new Discord.DiscordClient();
+            _discordClient = new DiscordSocketClient();
             _discordClient.MessageReceived += OnDiscordMessageReceived;
             _discordClient.UserJoined += OnDiscordUserJoined;
-            _discordClient.ServerAvailable += OnDiscordServerAvailable;
+            _discordClient.GuildAvailable += OnDiscordServerAvailable;
         }
 
         public event EventHandler<MessageEventArgs> OnMessageReceived;
@@ -24,41 +25,44 @@ namespace Disclose.DiscordClient.DiscordNetAdapters
         {
             Channel realChannel = (Channel) channel;
 
-            return new Message(await realChannel.DiscordChannel.SendMessage(text));
+            return new Message(await realChannel.DiscordChannel.SendMessageAsync(text));
         }
 
         public async Task<IMessage> SendMessageToUser(IUser user, string text)
         {
             User realUser = (User) user;
 
-            return new Message(await realUser.DiscordUser.SendMessage(text));
+            return new Message(await realUser.DiscordUser.SendMessageAsync(text));
         }
 
-        private void OnDiscordMessageReceived(object sender, Discord.MessageEventArgs e)
+        private Task OnDiscordMessageReceived(SocketMessage message)
         {
-            OnMessageReceived?.Invoke(this, new MessageEventArgs(new Message(e.Message)));
+            OnMessageReceived?.Invoke(this, new MessageEventArgs(new Message(message)));
+
+            return Task.FromResult(0);
         }
 
-        private void OnDiscordUserJoined(object sender, Discord.UserEventArgs e)
+        private Task OnDiscordUserJoined(SocketGuildUser user)
         {
-            OnUserJoinedServer?.Invoke(this, new UserEventArgs(new User(e.User), new Server(e.Server)));
+            OnUserJoinedServer?.Invoke(this, new UserEventArgs(new ServerUser(user), new Server(user.Guild)));
+
+            return Task.FromResult(0);
         }
 
-        private void OnDiscordServerAvailable(object sender, Discord.ServerEventArgs e)
+        private Task OnDiscordServerAvailable(SocketGuild guild)
         {
-            OnServerAvailable?.Invoke(this, new ServerEventArgs(new Server(e.Server)));
+            OnServerAvailable?.Invoke(this, new ServerEventArgs(new Server(guild)));
+
+            return Task.FromResult(0);
         }
 
         public ulong ClientId => _discordClient.CurrentUser.Id;
 
-        public void ExecuteAndWait(Func<Task> action)
+        public async Task Connect(string token)
         {
-            _discordClient.ExecuteAndWait(action);
-        }
+            await _discordClient.LoginAsync(TokenType.Bot, token);
 
-        public Task Connect(string token)
-        {
-            return _discordClient.Connect(token, TokenType.Bot);
+            await _discordClient.StartAsync();
         }
     }
 }

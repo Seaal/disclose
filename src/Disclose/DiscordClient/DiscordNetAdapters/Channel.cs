@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Discord;
 
 namespace Disclose.DiscordClient.DiscordNetAdapters
 {
-    public class Channel : IChannel
+    internal class Channel : IChannel
     {
-        public Discord.Channel DiscordChannel { get; }
+        public IMessageChannel DiscordChannel { get; }
 
-        public Channel(Discord.Channel channel)
+        public Channel(IMessageChannel channel)
         {
             DiscordChannel = channel;
         }
 
         public ulong Id => DiscordChannel.Id;
         public string Name => DiscordChannel.Name;
-        public bool IsPrivateMessage => DiscordChannel.IsPrivate;
+        public bool IsPrivateMessage => DiscordChannel is IDMChannel;
     }
 }

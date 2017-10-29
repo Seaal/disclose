@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Disclose.DiscordClient;
 
 namespace Disclose
 {
@@ -33,7 +32,7 @@ namespace Disclose
         /// <summary>
         /// Use this to filter which server to use for Private Message contexts. Can be null if the bot is only connected to one server.
         /// </summary>
-        public Func<IServer, bool> ServerFilter { get; set; }
+        public Func<DiscloseServer, bool> ServerFilter { get; set; }
 
         /// <summary>
         /// If true, when Direct Messaging the bot only the command and its arguments need to be typed. e.g. <c>help</c> instead of <c>!disclose help</c>

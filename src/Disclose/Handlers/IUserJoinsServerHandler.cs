@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Disclose.DiscordClient;
+﻿using System.Threading.Tasks;
 
 namespace Disclose
 {
@@ -17,6 +13,6 @@ namespace Disclose
         /// <param name="user"></param>
         /// <param name="server"></param>
         /// <returns></returns>
-        Task Handle(IUser user, IServer server);
+        Task Handle(DiscloseUser user, DiscloseServer server);
     }
 }

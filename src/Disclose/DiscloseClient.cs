@@ -6,20 +6,43 @@ using Disclose.DiscordClient.DiscordNetAdapters;
 using MessageEventArgs = Disclose.DiscordClient.MessageEventArgs;
 using ServerEventArgs = Disclose.DiscordClient.ServerEventArgs;
 using UserEventArgs = Disclose.DiscordClient.UserEventArgs;
+using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Disclose.Tests")]
 
 namespace Disclose
 {
-    public class DiscloseClient : IDiscloseSettings
+    public class DiscloseClient : IDiscloseFacade
     {
         private readonly IDiscordClient _discordClient;
         private readonly IDictionary<string, ICommandHandler> _commandHandlers;
         private readonly ICollection<IUserJoinsServerHandler> _userJoinsServerHandlers;
         private DiscloseOptions _options;
         private readonly ICommandParser _parser;
-        private IServer _server;
+        private DiscloseServer _server;
 
-        IReadOnlyCollection<ICommandHandler> IDiscloseSettings.CommandHandlers => _commandHandlers.Values.ToList();
-        IServer IDiscloseSettings.Server => _server;
+        IReadOnlyCollection<ICommandHandler> IDiscloseFacade.CommandHandlers => _commandHandlers.Values.ToList();
+        DiscloseServer IDiscloseFacade.Server => _server;
+        ulong IDiscloseFacade.ClientId => _discordClient.ClientId;
+
+        async Task<DiscloseMessage> IDiscloseFacade.SendMessageToChannel(DiscloseChannel channel, string text)
+        {
+            IMessage message = await _discordClient.SendMessageToChannel(channel.DiscordChannel, text);
+
+            IEnumerable<DiscloseUser> users = await _server.GetUsersAsync();
+
+            return new DiscloseMessage(message, users.FirstOrDefault(u => u.Id == _discordClient.ClientId));
+        }
+
+        async Task<DiscloseMessage> IDiscloseFacade.SendMessageToUser(DiscloseUser user, string text)
+        {
+            IMessage message = await _discordClient.SendMessageToUser(user.DiscordUser, text);
+
+            IEnumerable<DiscloseUser> users = await _server.GetUsersAsync();
+
+            return new DiscloseMessage(message, users.FirstOrDefault(u => u.Id == _discordClient.ClientId));
+        }
 
         /// <summary>
         /// Provides a way of storing data to handlers.
@@ -93,9 +116,25 @@ namespace Disclose
                 throw new ArgumentException("A command handler with the commmand " + commandHandler.CommandName + " already exists!");
             }
 
-            commandHandler.Init(this, _discordClient, DataStore);
+            commandHandler.Init(this, DataStore);
 
             _commandHandlers.Add(commandHandler.CommandName.ToLowerInvariant(), commandHandler);
+        }
+
+        /// <summary>
+        /// Registers a handler to handle when a new user joins the server for the first time.
+        /// </summary>
+        /// <param name="userJoinsServerHandler"></param>
+        public void Register(IUserJoinsServerHandler userJoinsServerHandler)
+        {
+            if (userJoinsServerHandler == null)
+            {
+                throw new ArgumentNullException(nameof(userJoinsServerHandler));
+            }
+
+            userJoinsServerHandler.Init(this, DataStore);
+
+            _userJoinsServerHandlers.Add(userJoinsServerHandler);
         }
 
         /// <summary>
@@ -113,28 +152,12 @@ namespace Disclose
         }
 
         /// <summary>
-        /// Registers a handler to handle when a new user joins the server for the first time.
-        /// </summary>
-        /// <param name="userJoinsServerHandler"></param>
-        public void Register(IUserJoinsServerHandler userJoinsServerHandler)
-        {
-            if (userJoinsServerHandler == null)
-            {
-                throw new ArgumentNullException(nameof(userJoinsServerHandler));
-            }
-
-            userJoinsServerHandler.Init(this, _discordClient, DataStore);
-
-            _userJoinsServerHandlers.Add(userJoinsServerHandler);
-        }
-
-        /// <summary>
-        /// Connect to Discord and wait for requests. This will suspend console applications.
+        /// Connect to Discord and wait for requests.
         /// </summary>
         /// <param name="token"></param>
-        public void Connect(string token)
+        public Task Connect(string token)
         {
-            _discordClient.ExecuteAndWait(async () => await _discordClient.Connect(token));
+            return _discordClient.Connect(token);
         }
 
         private async void OnMessageReceived(object sender, MessageEventArgs e)
@@ -153,39 +176,45 @@ namespace Disclose
                 return;
             }
 
-            ICommandHandler commandHandler;
-
-            bool commandExists = _commandHandlers.TryGetValue(parsedCommand.Command, out commandHandler);
+            bool commandExists = _commandHandlers.TryGetValue(parsedCommand.Command, out ICommandHandler commandHandler);
 
             if (!commandExists)
             {
                 return;
             }
 
-            if (commandHandler.ChannelFilter != null && !commandHandler.ChannelFilter(message.Channel))
+            if (commandHandler.ChannelFilter != null && !commandHandler.ChannelFilter(new DiscloseChannel(message.Channel)))
             {
                 return;
             }
+
+            DiscloseUser discloseUser;
 
             if (message.Channel.IsPrivateMessage)
             {
                 //User objects in Direct Messages don't have roles because there is no server context. So find the user on the server and use that user to have the user's roles available
-                IUser userWithRoles = _server.Users.FirstOrDefault(u => u.Id == message.User.Id);
+                IEnumerable<DiscloseUser> serverUsers = await _server.GetUsersAsync();
 
-                if (userWithRoles == null)
+                discloseUser = serverUsers.FirstOrDefault(su => su.Id == message.User.Id);
+
+                if (discloseUser == null)
                 {
                     return;
                 }
-
-                message = new PrivateMessage(message, userWithRoles);
+            }
+            else
+            {
+                discloseUser = new DiscloseUser((IServerUser)message.User, _server);
             }
 
-            if (commandHandler.UserFilter != null && !commandHandler.UserFilter(message.User))
+            DiscloseMessage discloseMessage = new DiscloseMessage(message, discloseUser);
+
+            if (commandHandler.UserFilter != null && !commandHandler.UserFilter(discloseMessage.User))
             {
                 return;
             }
 
-            await commandHandler.Handle(message, parsedCommand.Argument);
+            await commandHandler.Handle(discloseMessage, parsedCommand.Argument);
         }
 
         private async void OnUserJoinedServer(object sender, UserEventArgs e)
@@ -194,7 +223,7 @@ namespace Disclose
             {
                 try
                 {
-                    await handler.Handle(e.User, e.Server);
+                    await handler.Handle(new DiscloseUser(e.User, _server), _server);
                 }
                 catch (Exception)
                 {
@@ -205,16 +234,18 @@ namespace Disclose
 
         private void OnServerAvailable(object sender, ServerEventArgs e)
         {
+            DiscloseServer server = new DiscloseServer(e.Server);
+
             if (_server?.Id == e.Server.Id)
             {
                 return;
             }
 
-            if (_server == null && (_options.ServerFilter == null || _options.ServerFilter(e.Server)))
+            if (_server == null && (_options.ServerFilter == null || _options.ServerFilter(server)))
             {
-                _server = e.Server;
+                _server = server;
             }
-            else if (_server != null && (_options.ServerFilter == null || _options.ServerFilter(e.Server)))
+            else if (_server != null && (_options.ServerFilter == null || _options.ServerFilter(server)))
             {
                 throw new InvalidOperationException("More than 1 server matched your filter, or no filter was supplied, make your filter more specific.");
             }

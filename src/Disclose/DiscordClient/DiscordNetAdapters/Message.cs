@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Discord;
-
-namespace Disclose.DiscordClient.DiscordNetAdapters
+﻿namespace Disclose.DiscordClient.DiscordNetAdapters
 {
-    public class Message : IMessage
+    internal class Message : IMessage
     {
-        public string Text { get; }
+        public string Content { get; }
         public IChannel Channel { get; }
         public IUser User { get; }
 
-        public Message(Discord.Message message)
+        public Message(Discord.IMessage message)
         {
-            Text = message.Text;
+            Content = message.Content;
             Channel = new Channel(message.Channel);
-            User = new User(message.User);
+            User = new User(message.Author);
         }
     }
 }

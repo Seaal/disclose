@@ -36,7 +36,7 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            _message.Text.Returns("!");
+            _message.Content.Returns("!");
 
             ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
@@ -54,7 +54,7 @@ namespace Disclose.Tests.CommandParserTests
 
             _parser.Init(_options);
 
-            _message.Text.Returns(character + alias + " test");
+            _message.Content.Returns(character + alias + " test");
 
             ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
@@ -69,7 +69,7 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            _message.Text.Returns(testString);
+            _message.Content.Returns(testString);
 
             ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
@@ -84,7 +84,7 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            _message.Text.Returns(testString);
+            _message.Content.Returns(testString);
 
             ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
@@ -99,7 +99,7 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            _message.Text.Returns("!test " + command);
+            _message.Content.Returns("!test " + command);
 
             ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
@@ -115,7 +115,7 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            _message.Text.Returns("!test " + command + " arguments");
+            _message.Content.Returns("!test " + command + " arguments");
 
             ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
@@ -131,7 +131,7 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            _message.Text.Returns("!test command " + argument);
+            _message.Content.Returns("!test command " + argument);
 
             ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
@@ -147,7 +147,7 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            _message.Text.Returns("!test " + command);
+            _message.Content.Returns("!test " + command);
 
             ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
@@ -165,7 +165,7 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            _message.Text.Returns("!test" + whiteSpace + "command");
+            _message.Content.Returns("!test" + whiteSpace + "command");
 
             ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 
@@ -183,7 +183,7 @@ namespace Disclose.Tests.CommandParserTests
         {
             _parser.Init(_options);
 
-            _message.Text.Returns("!test command" + whiteSpace + "argument test");
+            _message.Content.Returns("!test command" + whiteSpace + "argument test");
 
             ParsedCommand parsedCommand = _parser.ParseCommand(_message);
 

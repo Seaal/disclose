@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Disclose.DiscordClient;
 
 namespace Disclose
 {
@@ -24,6 +23,6 @@ namespace Disclose
         /// <param name="message">The message received from discord</param>
         /// <param name="arguments">The arguments of the command</param>
         /// <returns></returns>
-        Task Handle(IMessage message, string arguments);
+        Task Handle(DiscloseMessage message, string arguments);
     }
 }

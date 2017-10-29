@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Disclose.DiscordClient;
+﻿using System.Threading.Tasks;
 
 namespace Disclose
 {
@@ -12,6 +8,6 @@ namespace Disclose
 
         public abstract string Description { get; }
 
-        public abstract Task Handle(IMessage message, string arguments);
+        public abstract Task Handle(DiscloseMessage message, string arguments);
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Disclose.DiscordClient;
+﻿using System.Threading.Tasks;
 
 namespace Disclose
 {
@@ -12,6 +8,6 @@ namespace Disclose
     public abstract class UserJoinsServerHandler : Handler<IUserJoinsServerHandler>, IUserJoinsServerHandler
     {
         /// <inheritdoc />
-        public abstract Task Handle(IUser user, IServer server);
+        public abstract Task Handle(DiscloseUser user, DiscloseServer server);
     }
 }

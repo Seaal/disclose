@@ -85,7 +85,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             _client.Register(handler);
 
-            handler.Received(1).Init(_client, _discordClient, _dataStore);
+            handler.Received(1).Init(_client, _dataStore);
         }
 
         [Test]

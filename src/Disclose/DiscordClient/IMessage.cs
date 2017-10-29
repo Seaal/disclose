@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Disclose.DiscordClient
+﻿namespace Disclose.DiscordClient
 {
     public interface IMessage
     {
-        string Text { get; }
+        string Content { get; }
 
         IChannel Channel { get; }
 

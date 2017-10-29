@@ -10,6 +10,8 @@ namespace Disclose.DiscordClient
         ulong Id { get; }
         string Name { get; }
 
-        IEnumerable<IUser> Users { get; }
+        Task<IEnumerable<IServerUser>> GetUsersAsync();
+
+        IEnumerable<IRole> GetRoles();
     }
 }
