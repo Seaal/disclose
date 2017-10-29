@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>An extendible bot framework for the Discord Chat Application.</Description>
     <AssemblyTitle>Disclose</AssemblyTitle>
-    <VersionPrefix>0.2.0</VersionPrefix>
+    <VersionPrefix>0.2.1</VersionPrefix>
     <Authors>Seaal</Authors>
     <TargetFrameworks>netstandard1.3</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
