@@ -85,7 +85,7 @@ namespace Disclose.Tests.DiscloseClientTests
 
             _client.Register(handler);
 
-            handler.Received(1).Init(_client, _dataStore);
+            handler.Received(1).Init(_client, Arg.Is<DataStoreLockDecorator>(decoratedDataStore => decoratedDataStore.DataStore == _dataStore));
         }
 
         [Test]

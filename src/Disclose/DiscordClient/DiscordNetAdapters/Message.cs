@@ -13,9 +13,7 @@ namespace Disclose.DiscordClient.DiscordNetAdapters
             Content = message.Content;
             Channel = new Channel(message.Channel);
 
-            IGuildUser guildUser = message.Author as IGuildUser;
-
-            if(guildUser != null)
+            if (message.Author is IGuildUser guildUser)
             {
                 User = new ServerUser(guildUser);
             }

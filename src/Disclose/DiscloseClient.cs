@@ -21,6 +21,7 @@ namespace Disclose
         private DiscloseOptions _options;
         private readonly ICommandParser _parser;
         private DiscloseServer _server;
+        private DataStoreLockDecorator _decoratedDataStore;
 
         IReadOnlyCollection<ICommandHandler> IDiscloseFacade.CommandHandlers => _commandHandlers.Values.ToList();
         DiscloseServer IDiscloseFacade.Server => _server;
@@ -47,7 +48,16 @@ namespace Disclose
         /// <summary>
         /// Provides a way of storing data to handlers.
         /// </summary>
-        public IDataStore DataStore { get; set; }
+        public IDataStore DataStore {
+            get
+            {
+                return _decoratedDataStore?.DataStore;
+            }
+            set
+            {
+                _decoratedDataStore = new DataStoreLockDecorator(value);
+            }
+        }
 
         /// <summary>
         /// Creates an instance of the DiscloseClient with default implementations and calls Init to set the disclose options.
@@ -116,7 +126,7 @@ namespace Disclose
                 throw new ArgumentException("A command handler with the commmand " + commandHandler.CommandName + " already exists!");
             }
 
-            commandHandler.Init(this, DataStore);
+            commandHandler.Init(this, _decoratedDataStore);
 
             _commandHandlers.Add(commandHandler.CommandName.ToLowerInvariant(), commandHandler);
         }
@@ -132,7 +142,7 @@ namespace Disclose
                 throw new ArgumentNullException(nameof(userJoinsServerHandler));
             }
 
-            userJoinsServerHandler.Init(this, DataStore);
+            userJoinsServerHandler.Init(this, _decoratedDataStore);
 
             _userJoinsServerHandlers.Add(userJoinsServerHandler);
         }
