@@ -1,4 +1,6 @@
-﻿namespace Disclose.DiscordClient.DiscordNetAdapters
+﻿using Discord;
+
+namespace Disclose.DiscordClient.DiscordNetAdapters
 {
     internal class Message : IMessage
     {
@@ -10,7 +12,17 @@
         {
             Content = message.Content;
             Channel = new Channel(message.Channel);
-            User = new User(message.Author);
+
+            IGuildUser guildUser = message.Author as IGuildUser;
+
+            if(guildUser != null)
+            {
+                User = new ServerUser(guildUser);
+            }
+            else
+            {
+                User = new User(message.Author);
+            }
         }
     }
 }
